@@ -1,6 +1,18 @@
 <html>
 <body>
 
+<?php 
+ /*
+	if (extension_loaded('pgsql')) { echo "Extensió pgsql carregada"; } else { echo "Extensió pgsql NO carregada"; } 
+ 	echo "<br/>"; 
+ 
+	echo "Llista de extensions carregades :";
+	print_r(get_loaded_extensions()); 
+ 
+	phpinfo(); 
+ */
+?> 
+
 <p>
 <?php
 
@@ -14,13 +26,13 @@
 	echo "<br/>";
 
 
-	$res = pg_query($db, "select * from comptes_comptables where codi = '2. Ingressos'");
+	$res = pg_query($db, "select descripcio from comptes_comptables where codi_compte_comptable = '2. Ingressos'");
 	$val = pg_fetch_result($res, 1, 0);
 	echo $val;
 	echo "<br/><br/>";
 
 
-	$result = pg_query("SELECT codi, descripcio FROM comptes_comptables") or die('Query failed: ' . pg_last_error());
+	$result = pg_query("SELECT codi_compte_comptable, descripcio FROM comptes_comptables") or die('Query failed: ' . pg_last_error());
 
 
 	while ($row = pg_fetch_row($result)) {

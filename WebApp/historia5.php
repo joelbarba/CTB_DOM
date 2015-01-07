@@ -272,6 +272,8 @@
 			elemInput.setAttribute("value", "");
 
 			elemInput = TR_moviment.cells[2].firstElementChild;	// Import
+			elemInput.setAttribute("id", "import_new_op_mov_" + num_new_mov);
+			elemInput.setAttribute("name", "n_import_new_op_mov_" + num_new_mov);
 			elemInput.setAttribute("value", "");			
 
 			elemInput = TR_moviment.cells[3].firstElementChild;	// Cta real
@@ -338,8 +340,6 @@
 
 			// alert ("Crear nova operacio");
 			
-			
-			
 			var xmlhttp;
 			if (window.XMLHttpRequest) {	
 				xmlhttp = new XMLHttpRequest();						// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -403,6 +403,8 @@
 
 
 			this.doNotSubmit();
+			
+			return false;
 			
 		}
 
@@ -501,7 +503,7 @@
 						<tr id="tr_new_op_mov_1" >
 							<td> <input type="date" style="width: 125px; text-align: center;" /> </td>
 							<td> <input style="width: 300px; text-align: left;"   value="mov1" /> </td>
-							<td> <input style="width:  80px; text-align: right;"  value="-24.98" onkeydown="validar_import();" onkeyup="canvi_import_mov();" name="import_new_op_mov"/> </td>
+							<td> <input style="width:  80px; text-align: right;"  value="-24.98" onkeydown="validar_import();" onkeyup="canvi_import_mov();" name="import_new_op_mov_1"/> </td>
 							<td> <select style="width: 130px; text-align: right; ">
 								<?php
 									for ($t = 0; $t < count($codi_compte_real); $t++) {
@@ -535,7 +537,9 @@
 					</tbody>
 				</table> 
 			
-				<button style="margin-top: 5px;" onclick="Alta_Operacio();" > OK : Insertar operació i moviments </button>
+				<button style="margin-top: 5px;" onclick="Alta_Operacio(); return false;" > OK : Insertar operació i moviments </button>
+				<a href="#" onclick="Alta_Operacio();"> ALTA OPERACIÓ </a>
+				<input type="submit" value="Alta operació" onclick="Alta_Operacio(); return false;">
 			
 			</form>
 		
