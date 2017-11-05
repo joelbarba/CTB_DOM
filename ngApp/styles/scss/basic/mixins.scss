@@ -1,0 +1,13 @@
+@mixin border_radius($rad){
+  -webkit-border-radius:$rad;
+  -moz-border-radius:$rad;
+  border-radius:$rad;
+}
+
+@mixin transitions($time){
+  -webkit-transition:$time;
+  -moz-transition:$time;
+  -ms-transition:$time;
+  -o-transition:$time;
+  transition:$time;
+}

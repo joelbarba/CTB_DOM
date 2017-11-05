@@ -1,0 +1,19 @@
+body {
+  background: $background_color;
+  .navbar {
+    border-radius: 0;
+    background: lighten($primary_color, 30%);
+    .navbar-header {
+      width: 100%;
+    }
+    .navbar-brand {
+      padding: 6px;
+      img { width: 42px; }
+    }
+  }
+}
+
+.clickable {
+  cursor: pointer;
+}
+

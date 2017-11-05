@@ -1,0 +1,85 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h1>Page number 1</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+
+    <div class="row">
+      <div class="col-xs-12">
+        <h3>List of Items</h3>
+      </div>
+
+      <!-- Search box -->
+      <div class="col-sm-8">
+        <div class="form-group">
+          <input type="text" id="search-box" ng-model="searchBox" class="form-control" placeholder="Filter the list by ...">
+        </div>
+      </div>
+
+      <!-- Add button -->
+      <div class="col-sm-4 text-right">
+        <!--<button type="button" class="btn btn-default btn-lg">-->
+          <!--<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>-->
+          <!--<span>Add Item</span>-->
+        <!--</button>-->
+
+        <button class="btn btn-icon" ng-click="openAddModal()">
+          <span class="btn-text-section">Add Item</span>
+          <span class="btn-icon-section">
+            <span class="glyphicon glyphicon-plus"></span>
+          </span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="list-unstyled table-list">
+
+          <li class="darkBg">
+            <div class="row">
+              <!--&lt;!&ndash;ID&ndash;&gt;   <div class="col-xs-2" list-col-title title-text="ID"    field="id"    order-params="orderParams"></div>-->
+              <!--Name--> <div class="col-xs-3" list-col-title title-text="Title"       field="title"       order-params="orderParams"></div>
+              <!--Desc--> <div class="col-xs-5" list-col-title title-text="Description" field="description" order-params="orderParams"></div>
+              <!--Desc--> <div class="col-xs-2" list-col-title title-text="Done"        field="done"        order-params="orderParams"></div>
+            </div>
+          </li>
+
+          <li class="btn-row" pagination-id="paginationListId"
+              dir-paginate="taskItem in tasksList
+                            | filter: searchBox
+                            | orderBy: orderParams.orderByField: orderParams.reverseSort
+                            | itemsPerPage: 8">
+            <div class="row">
+              <!--<div class="col-xs-2 row-text"><span>{{taskItem.id}}</span></div>-->
+              <div class="col-xs-3 row-text"><span>{{taskItem.title}}</span></div>
+              <div class="col-xs-5 row-text"><span>{{taskItem.description}}</span></div>
+              <div class="col-xs-1 row-text"><span>{{taskItem.done}}</span></div>
+
+              <div class="col-xs-3 text-right">
+                <button class="btn btn-icon" ng-click="openEditModal(taskItem)">
+                  <span class="btn-text-section">Edit</span>
+                  <span class="btn-icon-section">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </span>
+                </button>
+              </div>
+
+            </div>
+          </li>
+
+        </ul>
+      </div>
+
+      <div class="col-xs-12">
+        <dir-pagination-controls pagination-id="paginationListId"></dir-pagination-controls>
+      </div>
+
+    </div>
+
+  </div>
+</div>
