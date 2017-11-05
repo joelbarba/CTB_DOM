@@ -1,0 +1,53 @@
+body {
+    font-family: "Courier New";
+    font-size: 10px;
+}
+
+tabla tr:hover {background-color:#E0FAC5;}
+
+.titol {
+    font-family: "Verdana", "Arial";
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #bbbbff;
+}
+
+.taula_capsalera_1 {
+    background-color: #bbbbff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.taula_cont_1 {
+    font-family: "Courier New";
+    font-size: 10px;
+    border-width: 1px;
+    border-spacing: 2px;
+    font-weight: bold;
+    border-style: solid;
+    
+}
+
+th.taula_cont_1 {
+    font-family: "Courier New";
+    font-size: 10px;
+    background-color: #bbbbff;
+    font-weight: bold;
+}
+
+#contenidor1 {
+    position: absolute;
+    left: 10px;
+    top: 40px;
+    width: 100%;
+    /*border: 1px black solid;*/
+}
+#llista1 {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 3000px;
+    border: 1px black solid;
+}
+

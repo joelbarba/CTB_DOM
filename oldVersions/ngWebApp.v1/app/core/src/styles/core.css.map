@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,IAAK;EACH,UAAU,EAAE,OAAO",
+"sources": ["scss/views/reset.scss"],
+"names": [],
+"file": "core.css"
+}

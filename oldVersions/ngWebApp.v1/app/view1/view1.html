@@ -1,0 +1,45 @@
+<div class="row page-heading-row premium-heading">
+  <div class="col-xs-12">
+    <h1 class="page-header">Expenses</h1>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Application Roles list box-->
+  <div class="col-md-12">
+    <div class="whiteBg">
+
+      <!--Header-->
+      <div class="row">
+        <div class="col-xs-12">
+          <h3>List of expenses</h3>
+        </div>
+      </div>
+expensesList={{expensesList}}
+      <div class="row">
+        <div class="col-xs-12">
+          <hr>
+
+          <ul class="list-unstyled table-list bf-slide-in-top bf-slide-out-top">
+
+            <!--Header of the permission list-->
+            <li class="darkBg">
+              <div class="row">
+                <div class="col-md-12" list-col-title title-text="Role"></div>
+              </div>
+            </li>
+
+            <li dir-paginate="expense in expensesList">
+              <div class="row" style="cursor: pointer">
+                <div class="col-md-6"><h5>{{expense.name}}</h5></div>
+                <div class="col-md-6 text-right"><h5>{{expense.value}}</h5></div>
+              </div>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

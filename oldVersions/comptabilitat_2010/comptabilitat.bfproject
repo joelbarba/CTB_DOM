@@ -1,0 +1,29 @@
+name: comptabilitat
+files: /var/www/comptabilitat/historia.php
+files: /var/www/comptabilitat/./llista_pots.php
+basedir: /var/www/comptabilitat/
+webdir: 
+template: 
+word_wrap: 0
+searchlist: llista_pots_re
+recent_files: /var/www/comptabilitat/del_pot_comp.php
+recent_files: /var/www/comptabilitat/del_pot_real.php
+recent_files: /var/www/comptabilitat/historia.php
+recent_files: /var/www/comptabilitat/mod_pot_comp_1.php
+recent_files: /var/www/comptabilitat/mod_pot_real_2.php
+recent_files: /var/www/comptabilitat/alta_pot_comp_2.php
+recent_files: /var/www/comptabilitat/alta_pot_real_2.php
+recent_files: /var/www/comptabilitat/mod_pot_comp_2.php
+recent_files: /var/www/comptabilitat/mod_pot_real_1.php
+recent_files: /var/www/comptabilitat/./alta_pot_real_2.php
+recent_files: /var/www/comptabilitat/./del_pot_real.php
+recent_files: /var/www/comptabilitat/./mod_pot_real_1.php
+recent_files: /var/www/comptabilitat/./mod_pot_real_2.php
+recent_files: /var/www/comptabilitat/./alta_pot_real_1.php
+recent_files: /var/www/comptabilitat/./alta_pot_comp_2.php
+opendir: /var/www/comptabilitat
+savedir: /var/www/comptabilitat
+view_html_toolbar: 1
+view_custom_menu: 1
+view_main_toolbar: 1
+view_left_panel: 1
