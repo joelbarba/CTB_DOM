@@ -9,56 +9,54 @@ STATIC_FOLDER = 'ngApp'
 app = Flask(__name__, static_folder=STATIC_FOLDER)
 
 # dialect+driver://username:password@host:port/database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://barba:barba0001@localhost/testing'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://barba:barba0001@localhost/CTB_DOM'
 db = SQLAlchemy(app)
 
 # Database model
-class Task(db.Model):
-    __tablename__ = "tasks"
+class RealPots(db.Model):
+    __tablename__ = "real_pots"
 
     # id          = db.Column(db.Integer,      primary_key=True, autoincrement=True)
     id          = db.Column(UUIDType(binary=False), primary_key=True)
-    title       = db.Column(db.String(120),  unique=False)
-    description = db.Column(db.String(1000), unique=False)
-    done        = db.Column(db.String(5),    unique=False)
+    pos         = db.Column(db.Integer,       unique=False)
+    name        = db.Column(db.String(1000),  unique=False)
+    amount      = db.Column(db.Float, unique=False)
 
-    def __init__(self, title, description):
-        self.title = title
-        self.description = description
+    def __init__(self, name):
+        self.name = name
+        self.amount = 0
 
     def get_row(self):
         resp = {
-            'id':           self.id,
-            'title':        self.title,
-            'description':  self.description,
-            'done':         self.done
+            'id'      : self.id,
+            'pos'     : self.pos,
+            'name'    : self.name,
+            'amount'  : self.amount
         }
         return resp
 
     def get_full_row(self):
         resp = {
-            'id':          self.id,
-            'title':       self.title,
-            'description': self.description,
-            'done':        self.done
+            'id'      : self.id,
+            'pos'     : self.pos,
+            'name'    : self.name,
+            'amount'  : self.amount
         }
         return resp
 
-    def add(self, task):
+    def add(self, pot):
         self.id = uuid.uuid4()
-        self.done = 'False'
-        db.session.add(task)
+        self.amount = 0
+        db.session.add(pot)
         return session_commit()
 
-    def delete(self, task):
-        db.session.delete(task)
+    def delete(self, pot):
+        db.session.delete(pot)
         return session_commit()
 
     def update(self):
         return session_commit()
 
-    # def __repr__(self):
-    #     return '%r' % (self.title)
 
 
 def session_commit():
