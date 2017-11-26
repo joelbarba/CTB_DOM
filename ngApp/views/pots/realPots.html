@@ -1,0 +1,70 @@
+<div class="col-xs-12">
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Real Pots</h3>
+    </div>
+
+    <!-- Search box -->
+    <div class="col-sm-8">
+      <div class="form-group">
+        <input type="text" id="search-box" ng-model="searchBox" class="form-control" placeholder="Filter the list by ...">
+      </div>
+    </div>
+
+    <!-- Add button -->
+    <div class="col-sm-4 text-right">
+      <button class="btn btn-icon" ng-click="openAddModal()">
+        <span class="btn-text-section">Add Real Pot</span>
+        <span class="btn-icon-section">
+          <span class="glyphicon glyphicon-plus"></span>
+        </span>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="list-unstyled table-list">
+
+        <li class="darkBg">
+          <div class="row">
+            <div class="col-xs-2" list-col-title title-text="Pos"     field="pos"     order-params="orderParams"></div>
+            <div class="col-xs-4" list-col-title title-text="Name"    field="name"    order-params="orderParams"></div>
+            <div class="col-xs-3" list-col-title title-text="Amount"  field="amount"  order-params="orderParams"></div>
+          </div>
+        </li>
+
+        <li class="btn-row" pagination-id="paginationListId"
+            ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}"
+            dir-paginate="realPotItem in realPotsList
+                          | filter: searchBox
+                          | orderBy: orderParams.orderByField: orderParams.reverseSort
+                          | itemsPerPage: 15">
+          <div class="row">
+            <div class="col-xs-2 row-text"><span>{{realPotItem.pos}}</span></div>
+            <div class="col-xs-4 row-text"><span>{{realPotItem.name}}</span></div>
+            <div class="col-xs-3 row-text"><span>{{realPotItem.amount}}</span></div>
+
+            <div class="col-xs-3 text-right">
+              <button class="btn btn-icon" ng-click="openEditModal(realPotItem)">
+                <span class="btn-text-section">Edit</span>
+                <span class="btn-icon-section">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </span>
+              </button>
+            </div>
+
+          </div>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="col-xs-12">
+      <dir-pagination-controls pagination-id="paginationListId"></dir-pagination-controls>
+    </div>
+
+  </div>
+
+</div>

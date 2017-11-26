@@ -1,15 +1,27 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute'])
+angular.module('myApp.pots', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {
-    templateUrl: 'views/view1/view1.html',
-    controller: 'View1Ctrl'
+  $routeProvider.when('/pots', {
+    templateUrl: 'views/pots/pots.html',
+    controller: 'PotsCtrl'
   });
 }])
+.controller('PotsCtrl', function($scope, growl, $uibModal, $resource) {
+  "ngInject";
 
-.controller('View1Ctrl', function($scope, growl, $uibModal, $resource) {
+
+})
+
+
+// <real-pots-crud></real-pots-crud>
+.component('realPotsCrud', {
+    templateUrl: 'views/pots/realPots.html',
+    controller: 'realPotsController'
+  }
+)
+.controller('realPotsController', function($scope, growl, $uibModal, $resource) {
   "ngInject";
 
   var realPotsResource = $resource('/api/v1/real_pots/:realPotId', { realPotId: '@id' });
@@ -43,7 +55,7 @@ angular.module('myApp.view1', ['ngRoute'])
   function openModal() {
     $uibModal.open({
       size        : 'md',
-      templateUrl : 'views/view1/item-modal.html',
+      templateUrl : 'views/pots/item-modal.html',
       scope       : $scope,
       controller  : function($scope, $uibModalInstance) {
         "ngInject";
