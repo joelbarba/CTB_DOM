@@ -22,9 +22,10 @@ class RealPots(db.Model):
     name        = db.Column(db.String(1000),  unique=False)
     amount      = db.Column(db.Float, unique=False)
 
-    def __init__(self, name):
+    def __init__(self, pos, name, amount):
+        self.pos = pos
         self.name = name
-        self.amount = 0
+        self.amount = amount
 
     def get_row(self):
         resp = {

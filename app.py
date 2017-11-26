@@ -44,10 +44,10 @@ def get_real_pot(real_pot_id):
 # Create a new real_pot
 @app.route('/api/v1/real_pots', methods=['POST'])
 def create_real_pot():
-    if not request.json or not 'title' in request.json:
+    if not request.json or not 'name' in request.json:
         abort(400)
 
-    new_real_pot = RealPots(request.json['title'], request.json.get('description', ""))
+    new_real_pot = RealPots(request.json['pos'], request.json.get('name'), request.json.get('amount'))
     error = new_real_pot.add(new_real_pot)
     if not error:
         return jsonify({'real_pot': new_real_pot.get_full_row()}), 201
@@ -79,24 +79,19 @@ def update_real_pot(real_pot_id):
     if not request.json:
         abort(400)
 
-    if 'title' in request.json:
-        if type(request.json['title']) != unicode:
-            abort(400)
-        real_pot.title = request.json['title']
+    if 'pos' in request.json:
+        real_pot.pos = request.json['pos']
 
-    if 'description' in request.json:
-        if type(request.json['description']) is not unicode:
+    if 'name' in request.json:
+        if type(request.json['name']) != unicode:
             abort(400)
-        real_pot.description = request.json['description']
+        real_pot.name = request.json['name']
 
-    if 'done' in request.json:
-        if type(request.json['done']) is not bool:
-            abort(400)
-
-        if request.json['done']:
-            real_pot.done = 'True'
-        else:
-            real_pot.done = 'False'
+    if 'amount' in request.json:
+        try:
+            real_pot.amount = float(request.json['amount'])
+        except:
+            return jsonify({'error': 'amount not valid'}), 400
 
     error = real_pot.update()
     if not error:
@@ -108,4 +103,4 @@ def update_real_pot(real_pot_id):
 if __name__ == '__main__':
     app.run(debug=True)
 
-    
+

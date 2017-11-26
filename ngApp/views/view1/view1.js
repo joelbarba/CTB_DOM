@@ -12,28 +12,31 @@ angular.module('myApp.view1', ['ngRoute'])
 .controller('View1Ctrl', function($scope, $uibModal, $resource) {
   "ngInject";
 
-  var tasksResource = $resource('/api/v1/tasks/:taskId', { taskId: '@id' });
+  var realPotsResource = $resource('/api/v1/real_pots/:realPotId', { realPotId: '@id' });
 
 
-  // Load tasks list
-  tasksResource.get(function(data) {
-    if (!!data && data.hasOwnProperty('tasks')) {
-      $scope.tasksList = angular.copy(data.tasks);
+  // Load realPots list
+  realPotsResource.get(function(data) {
+    if (!!data && data.hasOwnProperty('real_pots')) {
+      $scope.realPotsList = angular.copy(data.real_pots);
     }
   });
 
-  // Open add Task modal
+  // Open add Real Pot modal
   $scope.openAddModal = function() {
     $scope.task = 'add';
-    $scope.item = {};
+    $scope.item = { pos: 1, amount: 0 };
+    $scope.realPotsList.forEach(function(pot) {
+      if ($scope.item.pos <= pot.pos) { $scope.item.pos = pot.pos + 1; }
+    });
     openModal();
   };
 
-  // Open edit Task modal
+  // Open edit Real Pot modal
   $scope.openEditModal = function(selectedItem) {
     $scope.task = 'edit';
-    tasksResource.get({ taskId: selectedItem.id }, function(data) {
-      $scope.item = angular.copy(data.task);
+    realPotsResource.get({ realPotId: selectedItem.id }, function(data) {
+      $scope.item = angular.copy(data.real_pot);
       openModal();
     });
   };
@@ -47,26 +50,26 @@ angular.module('myApp.view1', ['ngRoute'])
         "ngInject";
 
         $scope.createNewItem = function() {
-          tasksResource.save($scope.item, function(data) {
-            $scope.tasksList.push(data.task);
+          realPotsResource.save($scope.item, function(data) {
+            $scope.realPotsList.push(data.real_pot);
             $uibModalInstance.close();
           });
         };
 
         $scope.saveItem = function() {
-          delete $scope.item.done;
-          tasksResource.save($scope.item, function(data) {
-            var listItem = $scope.tasksList.getById(data.task.id);
+          $scope.item.amount = Number($scope.item.amount);
+          realPotsResource.save($scope.item, function(data) {
+            var listItem = $scope.realPotsList.getById(data.real_pot.id);
             if (listItem) {
-              angular.merge(listItem, data.task);
+              angular.merge(listItem, data.real_pot);
             }
             $uibModalInstance.close();
           });
         };
 
         $scope.removeItem = function() {
-          tasksResource.remove({ taskId: $scope.item.id }, function() {
-            $scope.tasksList.removeById($scope.item.id);
+          realPotsResource.remove({ realPotId: $scope.item.id }, function() {
+            $scope.realPotsList.removeById($scope.item.id);
             $uibModalInstance.close();
           });
         };

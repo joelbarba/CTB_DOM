@@ -1,15 +1,14 @@
 <div class="row">
   <div class="col-xs-12">
-    <h1>Page number 1</h1>
+    <h1>POTS</h1>
   </div>
 </div>
 
 <div class="row">
   <div class="col-xs-12">
-
     <div class="row">
       <div class="col-xs-12">
-        <h3>List of Items</h3>
+        <h3>Real Pots</h3>
       </div>
 
       <!-- Search box -->
@@ -21,13 +20,8 @@
 
       <!-- Add button -->
       <div class="col-sm-4 text-right">
-        <!--<button type="button" class="btn btn-default btn-lg">-->
-          <!--<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>-->
-          <!--<span>Add Item</span>-->
-        <!--</button>-->
-
         <button class="btn btn-icon" ng-click="openAddModal()">
-          <span class="btn-text-section">Add Item</span>
+          <span class="btn-text-section">Add Real Pot</span>
           <span class="btn-icon-section">
             <span class="glyphicon glyphicon-plus"></span>
           </span>
@@ -42,26 +36,24 @@
 
           <li class="darkBg">
             <div class="row">
-              <!--&lt;!&ndash;ID&ndash;&gt;   <div class="col-xs-2" list-col-title title-text="ID"    field="id"    order-params="orderParams"></div>-->
-              <!--Name--> <div class="col-xs-3" list-col-title title-text="Title"       field="title"       order-params="orderParams"></div>
-              <!--Desc--> <div class="col-xs-5" list-col-title title-text="Description" field="description" order-params="orderParams"></div>
-              <!--Desc--> <div class="col-xs-2" list-col-title title-text="Done"        field="done"        order-params="orderParams"></div>
+              <div class="col-xs-2" list-col-title title-text="Pos"     field="pos"     order-params="orderParams"></div>
+              <div class="col-xs-4" list-col-title title-text="Name"    field="name"    order-params="orderParams"></div>
+              <div class="col-xs-3" list-col-title title-text="Amount"  field="amount"  order-params="orderParams"></div>
             </div>
           </li>
 
           <li class="btn-row" pagination-id="paginationListId"
-              dir-paginate="taskItem in tasksList
+              dir-paginate="realPotItem in realPotsList
                             | filter: searchBox
                             | orderBy: orderParams.orderByField: orderParams.reverseSort
-                            | itemsPerPage: 8">
+                            | itemsPerPage: 15">
             <div class="row">
-              <!--<div class="col-xs-2 row-text"><span>{{taskItem.id}}</span></div>-->
-              <div class="col-xs-3 row-text"><span>{{taskItem.title}}</span></div>
-              <div class="col-xs-5 row-text"><span>{{taskItem.description}}</span></div>
-              <div class="col-xs-1 row-text"><span>{{taskItem.done}}</span></div>
+              <div class="col-xs-2 row-text"><span>{{realPotItem.pos}}</span></div>
+              <div class="col-xs-4 row-text"><span>{{realPotItem.name}}</span></div>
+              <div class="col-xs-3 row-text"><span>{{realPotItem.amount}}</span></div>
 
               <div class="col-xs-3 text-right">
-                <button class="btn btn-icon" ng-click="openEditModal(taskItem)">
+                <button class="btn btn-icon" ng-click="openEditModal(realPotItem)">
                   <span class="btn-text-section">Edit</span>
                   <span class="btn-icon-section">
                     <span class="glyphicon glyphicon-pencil"></span>
