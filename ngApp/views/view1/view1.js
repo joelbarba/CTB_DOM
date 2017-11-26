@@ -9,11 +9,10 @@ angular.module('myApp.view1', ['ngRoute'])
   });
 }])
 
-.controller('View1Ctrl', function($scope, $uibModal, $resource) {
+.controller('View1Ctrl', function($scope, growl, $uibModal, $resource) {
   "ngInject";
 
   var realPotsResource = $resource('/api/v1/real_pots/:realPotId', { realPotId: '@id' });
-
 
   // Load realPots list
   realPotsResource.get(function(data) {
@@ -52,19 +51,25 @@ angular.module('myApp.view1', ['ngRoute'])
         $scope.createNewItem = function() {
           realPotsResource.save($scope.item, function(data) {
             $scope.realPotsList.push(data.real_pot);
+            growl.success("New Pot created successfully");
             $uibModalInstance.close();
           });
         };
 
         $scope.saveItem = function() {
-          $scope.item.amount = Number($scope.item.amount);
-          realPotsResource.save($scope.item, function(data) {
+          var updatedItem = angular.copy($scope.item);
+          updatedItem.amount = Number(updatedItem.amount);
+          realPotsResource.save(updatedItem, function(data) {
             var listItem = $scope.realPotsList.getById(data.real_pot.id);
             if (listItem) {
               angular.merge(listItem, data.real_pot);
             }
+            growl.success("Pot saved successfully");
             $uibModalInstance.close();
-          });
+          }, function(error) {
+              growl.error(error.data.error);
+            }
+          );
         };
 
         $scope.removeItem = function() {
