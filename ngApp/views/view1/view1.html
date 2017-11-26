@@ -43,6 +43,7 @@
           </li>
 
           <li class="btn-row" pagination-id="paginationListId"
+              ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}"
               dir-paginate="realPotItem in realPotsList
                             | filter: searchBox
                             | orderBy: orderParams.orderByField: orderParams.reverseSort
