@@ -109,12 +109,12 @@ angular.module('myApp.pots', ['ngRoute'])
 .controller('accPotsController', function($scope, growl, $uibModal, $resource) {
   "ngInject";
 
-  var realPotsResource = $resource('/api/v1/real_pots/:realPotId', { realPotId: '@id' });
+  var realPotsResource = $resource('/api/v1/acc_pots/:realPotId', { realPotId: '@id' });
 
   // Load realPots list
   realPotsResource.get(function(data) {
-    if (!!data && data.hasOwnProperty('real_pots')) {
-      $scope.realPotsList = angular.copy(data.real_pots);
+    if (!!data && data.hasOwnProperty('acc_pots')) {
+      $scope.realPotsList = angular.copy(data.acc_pots);
     }
   });
 
