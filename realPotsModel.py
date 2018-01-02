@@ -3,13 +3,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy_utils import UUIDType
+from config import app
 import uuid
 
-STATIC_FOLDER = 'ngApp'
-app = Flask(__name__, static_folder=STATIC_FOLDER)
-
-# dialect+driver://username:password@host:port/database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://barba:barba0001@localhost/CTB_DOM'
 db = SQLAlchemy(app)
 
 # Database model
@@ -66,6 +62,3 @@ def session_commit():
     except SQLAlchemyError as e:
         reason = str(e)
         return reason
-
-if __name__ == '__main__':
-    app.run(debug=True)
