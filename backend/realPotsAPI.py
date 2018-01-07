@@ -5,7 +5,7 @@ real_pots_api = Blueprint('real_pots_api', __name__)
 
 
 # Retrieve the list of Real Pots
-@real_pots_api.route('/', methods=['GET'])
+@real_pots_api.route('', methods=['GET'])
 def get_real_pots():
     real_pots_list = RealPots.query.all()
     resp = {'real_pots': []}
@@ -26,7 +26,7 @@ def get_real_pot(real_pot_id):
 
 
 # Create a new real_pot
-@real_pots_api.route('/', methods=['POST'])
+@real_pots_api.route('', methods=['POST'])
 def create_real_pot():
     if not request.json or not 'name' in request.json:
         abort(400)
@@ -67,8 +67,6 @@ def update_real_pot(real_pot_id):
         real_pot.pos = request.json['pos']
 
     if 'name' in request.json:
-        if type(request.json['name']) != unicode:
-            abort(400)
         real_pot.name = request.json['name']
 
     if 'amount' in request.json:

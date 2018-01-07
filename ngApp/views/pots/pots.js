@@ -55,7 +55,7 @@ angular.module('myApp.pots', ['ngRoute'])
   function openModal() {
     $uibModal.open({
       size        : 'md',
-      templateUrl : 'views/pots/item-modal.html',
+      templateUrl : 'views/pots/realPotModal.html',
       scope       : $scope,
       controller  : function($scope, $uibModalInstance) {
         "ngInject";
@@ -109,12 +109,12 @@ angular.module('myApp.pots', ['ngRoute'])
 .controller('accPotsController', function($scope, growl, $uibModal, $resource) {
   "ngInject";
 
-  var realPotsResource = $resource('/api/v1/acc_pots/:realPotId', { realPotId: '@id' });
+  var accPotsResource = $resource('/api/v1/acc_pots/:accPotId', { accPotId: '@id' });
 
-  // Load realPots list
-  realPotsResource.get(function(data) {
+  // Load accPots list
+  accPotsResource.get(function(data) {
     if (!!data && data.hasOwnProperty('acc_pots')) {
-      $scope.realPotsList = angular.copy(data.acc_pots);
+      $scope.accPotsList = angular.copy(data.acc_pots);
     }
   });
 
@@ -122,7 +122,7 @@ angular.module('myApp.pots', ['ngRoute'])
   $scope.openAddModal = function() {
     $scope.task = 'add';
     $scope.item = { pos: 1, amount: 0 };
-    $scope.realPotsList.forEach(function(pot) {
+    $scope.accPotsList.forEach(function(pot) {
       if ($scope.item.pos <= pot.pos) { $scope.item.pos = pot.pos + 1; }
     });
     openModal();
@@ -131,8 +131,8 @@ angular.module('myApp.pots', ['ngRoute'])
   // Open edit Real Pot modal
   $scope.openEditModal = function(selectedItem) {
     $scope.task = 'edit';
-    realPotsResource.get({ realPotId: selectedItem.id }, function(data) {
-      $scope.item = angular.copy(data.real_pot);
+    accPotsResource.get({ accPotId: selectedItem.id }, function(data) {
+      $scope.item = angular.copy(data.acc_pot);
       openModal();
     });
   };
@@ -140,14 +140,14 @@ angular.module('myApp.pots', ['ngRoute'])
   function openModal() {
     $uibModal.open({
       size        : 'md',
-      templateUrl : 'views/pots/item-modal.html',
+      templateUrl : 'views/pots/accPotModal.html',
       scope       : $scope,
       controller  : function($scope, $uibModalInstance) {
         "ngInject";
 
         $scope.createNewItem = function() {
-          realPotsResource.save($scope.item, function(data) {
-            $scope.realPotsList.push(data.real_pot);
+          accPotsResource.save($scope.item, function(data) {
+            $scope.accPotsList.push(data.acc_pot);
             growl.success("New Pot created successfully");
             $uibModalInstance.close();
           });
@@ -156,10 +156,10 @@ angular.module('myApp.pots', ['ngRoute'])
         $scope.saveItem = function() {
           var updatedItem = angular.copy($scope.item);
           updatedItem.amount = Number(updatedItem.amount);
-          realPotsResource.save(updatedItem, function(data) {
-            var listItem = $scope.realPotsList.getById(data.real_pot.id);
+          accPotsResource.save(updatedItem, function(data) {
+            var listItem = $scope.accPotsList.getById(data.acc_pot.id);
             if (listItem) {
-              angular.merge(listItem, data.real_pot);
+              angular.merge(listItem, data.acc_pot);
             }
             growl.success("Pot saved successfully");
             $uibModalInstance.close();
@@ -170,8 +170,8 @@ angular.module('myApp.pots', ['ngRoute'])
         };
 
         $scope.removeItem = function() {
-          realPotsResource.remove({ realPotId: $scope.item.id }, function() {
-            $scope.realPotsList.removeById($scope.item.id);
+          accPotsResource.remove({ accPotId: $scope.item.id }, function() {
+            $scope.accPotsList.removeById($scope.item.id);
             $uibModalInstance.close();
           });
         };

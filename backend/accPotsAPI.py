@@ -1,19 +1,16 @@
 from flask import Blueprint, jsonify, abort, make_response, request
-from accPotsModel import AccPots
+from accPotsModel import AccPots, get_root_list
 
 acc_pots_api = Blueprint('acc_pots_api', __name__)
 
 
 # Retrieve the list of Accountant Pots
-@acc_pots_api.route('/', defaults={'parent_id': None}, methods=['GET'])
-@acc_pots_api.route('/<uuid:parent_id>', methods=['GET'])
+@acc_pots_api.route('', defaults={'parent_id': None}, methods=['GET'])
 def get_acc_pots(parent_id):
     resp = {'acc_pots': []}
 
     if not parent_id:
-        acc_pots_list = AccPots.query.all()
-        for acc_pot in acc_pots_list:
-            resp['acc_pots'].append(acc_pot.get_row())
+        resp['acc_pots'] = get_root_list()
 
     else:
         acc_pots_list = AccPots.query.all()
@@ -35,12 +32,12 @@ def get_acc_pot(acc_pot_id):
 
 
 # Create a new acc_pot
-@acc_pots_api.route('/', methods=['POST'])
+@acc_pots_api.route('', methods=['POST'])
 def create_acc_pot():
     if not request.json or not 'name' in request.json:
         abort(400)
 
-    new_acc_pot = AccPots(request.json['pos'], request.json.get('name'), request.json.get('amount'))
+    new_acc_pot = AccPots(None, request.json['pos'], request.json.get('name'), request.json.get('amount'), request.json.get('parent_id'))
     error = new_acc_pot.add(new_acc_pot)
     if not error:
         return jsonify({'acc_pot': new_acc_pot.get_full_row()}), 201

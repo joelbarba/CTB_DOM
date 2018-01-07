@@ -1,8 +1,8 @@
 #!flask/bin/python
-from flask import Blueprint
+from flask import Blueprint, make_response, jsonify
 from config import app
-from backend.realPotsAPI    import real_pots_api
-from backend.accPotsAPI     import acc_pots_api
+from backend.realPotsAPI import real_pots_api
+from backend.accPotsAPI import acc_pots_api
 
 app.register_blueprint(real_pots_api, url_prefix='/api/v1/real_pots')
 app.register_blueprint(acc_pots_api, url_prefix='/api/v1/acc_pots')

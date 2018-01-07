@@ -1,5 +1,4 @@
 #!flask/bin/python
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy_utils import UUIDType
@@ -8,15 +7,16 @@ import uuid
 
 db = SQLAlchemy(app)
 
+
 # Database model
 class RealPots(db.Model):
     __tablename__ = "real_pots"
 
     # id          = db.Column(db.Integer,      primary_key=True, autoincrement=True)
-    id          = db.Column(UUIDType(binary=False), primary_key=True)
-    pos         = db.Column(db.Integer,       unique=False)
-    name        = db.Column(db.String(1000),  unique=False)
-    amount      = db.Column(db.Float, unique=False)
+    id = db.Column(UUIDType(binary=False), primary_key=True)
+    pos = db.Column(db.Integer, unique=False)
+    name = db.Column(db.String(1000), unique=False)
+    amount = db.Column(db.Float, unique=False)
 
     def __init__(self, pos, name, amount):
         self.pos = pos
@@ -25,19 +25,19 @@ class RealPots(db.Model):
 
     def get_row(self):
         resp = {
-            'id'      : self.id,
-            'pos'     : self.pos,
-            'name'    : self.name,
-            'amount'  : self.amount
+            'id': self.id,
+            'pos': self.pos,
+            'name': self.name,
+            'amount': self.amount
         }
         return resp
 
     def get_full_row(self):
         resp = {
-            'id'      : self.id,
-            'pos'     : self.pos,
-            'name'    : self.name,
-            'amount'  : self.amount
+            'id': self.id,
+            'pos': self.pos,
+            'name': self.name,
+            'amount': self.amount
         }
         return resp
 
@@ -53,7 +53,6 @@ class RealPots(db.Model):
 
     def update(self):
         return session_commit()
-
 
 
 def session_commit():
