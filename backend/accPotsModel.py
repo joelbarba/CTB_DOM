@@ -3,7 +3,7 @@ from flask import Flask
 from flask_sqlalchemy   import SQLAlchemy
 from sqlalchemy.exc     import SQLAlchemyError
 from sqlalchemy_utils   import UUIDType
-from sqlalchemy.sql     import select
+from sqlalchemy.sql     import text, select
 from sqlalchemy         import create_engine
 from sqlalchemy         import Table, Column, Integer, String, MetaData, ForeignKey
 from config import app
@@ -83,20 +83,35 @@ class AccPots(db.Model):
 
 # Custom functions
 def get_root_list(parent_id=None):
-    if parent_id is None:
-        sql_sent = select([acc_pots], from_obj=acc_pots, whereclause='parent_id is null')
-    else:
-        sql_sent = select([acc_pots], from_obj=acc_pots, whereclause="parent_id = '" + parent_id + '"')
 
-    result = conn.execute(sql_sent)
-    acc_pots_list=[]
+    if parent_id is None:
+        sql_sent = text("select t1.id, t1.pos, t1.name, t1.amount, t1.parent_id, "
+                        "       (select count(*)"
+                        "          from acc_pots"
+                        "         where parent_id = t1.id) as children "
+                        "  from acc_pots t1"
+                        " where parent_id is null")
+    else:
+        sql_sent = text("select t1.id, t1.pos, t1.name, t1.amount, t1.parent_id, "
+                        "       (select count(*)"
+                        "          from acc_pots"
+                        "         where parent_id = t1.id) as children "
+                        "  from acc_pots t1"
+                        " where parent_id = '" + parent_id + "'")
+
+
+    result = conn.execute(sql_sent).fetchall()
+
+    acc_pots_list = []
+
     for row in result:
         acc_pots_list.append({
-            'id'        : row.id,
-            'pos'       : row.pos,
-            'name'      : row.name,
-            'amount'    : row.amount,
-            'parent_id' : row.parent_id
+            'id'                : str(row[0]),
+            'pos'               : row[1],
+            'name'              : str(row[2]),
+            'amount'            : str(row[3]),
+            'parent_id'         : str(row[4]),
+            'childrenCount'     : row[5]
         })
 
     return acc_pots_list

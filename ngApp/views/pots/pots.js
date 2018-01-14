@@ -112,11 +112,29 @@ angular.module('myApp.pots', ['ngRoute'])
   var accPotsResource = $resource('/api/v1/acc_pots/:accPotId', { accPotId: '@id' });
 
   // Load accPots list
-  accPotsResource.get(function(data) {
+  accPotsResource.get({ parent_id: null }, {}, function(data) {
+//  accPotsResource.get({ parent_id: 'f1343a3f-5494-4ae1-aa95-84a2fed5594b' }, {}, function(data) {
     if (!!data && data.hasOwnProperty('acc_pots')) {
       $scope.accPotsList = angular.copy(data.acc_pots);
     }
   });
+
+  $scope.expandChildren = function(parentRow) {
+    if (parentRow.isExpanded) {
+        parentRow.isExpanded = false;
+    } else {
+      if (!parentRow.isExpanding) {
+        parentRow.isExpanding = true;
+        accPotsResource.get({ parent_id: parentRow.id }, {}, function(data) {
+          if (!!data && data.hasOwnProperty('acc_pots')) {
+            parentRow.children = angular.copy(data.acc_pots);
+            parentRow.isExpanding = false;
+            parentRow.isExpanded = true;
+          }
+        });
+      }
+    }
+  };
 
   // Open add Real Pot modal
   $scope.openAddModal = function() {

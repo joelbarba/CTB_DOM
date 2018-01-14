@@ -42,8 +42,19 @@
                           | orderBy: orderParams.orderByField: orderParams.reverseSort
                           | itemsPerPage: 15">
           <div class="row">
-            <div class="col-xs-2 row-text"><span>{{accPotItem.pos}}</span></div>
-            <div class="col-xs-4 row-text"><span>{{accPotItem.name}}</span></div>
+            <div class="col-xs-2 row-text">
+              <button class="btn btn-icon"
+                      ng-click="expandChildren(accPotItem)"
+                      ng-disabled="accPotItem.childrenCount==0">
+                <!--<span class="btn-text-section">Edit</span>-->
+                <span class="btn-icon-section">
+                  <span class="glyphicon"
+                        ng-class="accPotItem.isExpanded ? 'glyphicon-minus' : 'glyphicon-plus'">
+                  </span>
+                </span>
+              </button>
+            </div>
+            <div class="col-xs-4 row-text"><span>{{accPotItem.pos}} - {{accPotItem.name}}</span></div>
             <div class="col-xs-3 row-text"><span>{{accPotItem.amount}}</span></div>
 
             <div class="col-xs-3 text-right">
@@ -53,6 +64,10 @@
                   <span class="glyphicon glyphicon-pencil"></span>
                 </span>
               </button>
+            </div>
+
+            <div class="col-xs-12" ng-if="accPotItem.isExpanded">
+              children={{accPotItem.children}}
             </div>
 
           </div>
