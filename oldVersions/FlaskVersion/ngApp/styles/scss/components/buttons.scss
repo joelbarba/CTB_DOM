@@ -1,0 +1,54 @@
+.btn {
+  cursor: pointer;
+
+  &.btn-icon {
+    padding: 0px;
+    background: $primary_color;
+    color: $primary_color_invert;
+    border: 1px solid darken($primary_color, 10%);
+    @include border_radius(4);
+  }
+
+  .btn-text-section {
+    float: left;
+    font-size:13px;
+    font-weight:500;
+    letter-spacing: 1px;
+    padding: 8px 16px 6px;
+  }
+
+  .btn-icon-section {
+    height: 32px;
+    float: left;
+    padding: 6px 10px 5px 12px;
+    font-size: 18px;
+    background:darken($primary_color, 5%);
+  }
+
+
+  &.btn-icon-save {
+    background: $tertiary_color;
+    border: 1px solid darken($tertiary_color, 10%);
+    .btn-icon-section {
+      background:darken($tertiary_color, 5%);
+    }
+  }
+
+  &.btn-icon-cancel {
+    background: $secondary_color;
+    border: 1px solid darken($secondary_color, 10%);
+    .btn-icon-section {
+      background:darken($secondary_color, 5%);
+    }
+  }
+
+  &.btn-icon-delete {
+    background: $warning_color;
+    border: 1px solid darken($warning_color, 10%);
+    .btn-icon-section {
+      background:darken($warning_color, 5%);
+    }
+  }
+}
+
+

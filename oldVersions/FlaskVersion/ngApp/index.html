@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- build:css(./src) fullStyles.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/angular-growl-v2/build/angular-growl.css" />
+    <!-- endbower -->
+
+    <link href="styles/app.css" rel="stylesheet" type="text/css">
+  <!-- endbuild -->
+
+</head>
+<body>
+  <div class="container-fluid">
+    <div navbar></div>
+    <div growl></div>
+
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!--Page content-->
+    <div class="row">
+      <div class="col-xs-12" ng-view></div>
+    </div>
+
+    <!--Footer-->
+    <!--<div class="row">-->
+      <!--<div class="col-xs-12">Angular seed app: v<span app-version></span></div>-->
+    <!--</div>-->
+
+
+  </div>
+
+  <!-- build:js(.) scripts/fullApp.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-loader/angular-loader.js"></script>
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-growl-v2/build/angular-growl.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <!-- endbower -->
+
+    <script src="app.js"></script>
+
+    <script src="views/pots/pots.js"></script>
+    <script src="views/view2/view2.js"></script>
+    <script src="views/view3/view3.js"></script>
+
+    <script src="components/jArrayHelpers.js"></script>
+    <script src="components/jDirectives/navbar.js"></script>
+    <script src="components/version/interpolate-filter.js"></script>
+    <script src="components/version/version-directive.js"></script>
+    <script src="components/version/version.js"></script>
+
+  <!-- endbuild -->
+
+</body>
+</html>

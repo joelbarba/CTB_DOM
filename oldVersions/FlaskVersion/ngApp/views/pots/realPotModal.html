@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="$close()"><span aria-hidden="true">&times;</span></button>
+  <h3 class="modal-title" ng-if="task === 'add'">Add New Real Pot</h3>
+  <h3 class="modal-title" ng-if="task === 'edit'">Edit Real Pot: {{item.name}}</h3>
+</div>
+
+<div class="modal-body">
+  <div class="row">
+    <form name="newItemForm" novalidate>
+
+      <!--ID-->
+      <div class="col-md-8 form-group" ng-show="task === 'edit'">
+        <label for="idInputItem">Id</label>
+        <input type="text" class="form-control" id="idInputItem" ng-disabled="true" ng-model="item.id">
+      </div>
+
+      <!--Pos-->
+      <div class="col-md-4 form-group">
+        <label for="posInputItem">Position</label>
+        <input type="number" class="form-control" id="posInputItem" placeholder="99" ng-model="item.pos">
+      </div>
+
+      <!--Name-->
+      <div class="col-md-8 form-group">
+        <label for="nameInputItem">Name</label>
+        <input type="text" class="form-control" id="nameInputItem" placeholder="pot name..." ng-model="item.name">
+      </div>
+
+      <!--Amount-->
+      <div class="col-md-4 form-group" ng-show="task === 'edit'">
+        <label for="amountInputItem">Amount</label>
+        <input type="text" class="form-control" id="amountInputItem" placeholder="0" ng-model="item.amount">
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<div class="modal-footer">
+
+  <!--Remove-->
+  <button class="btn btn-icon btn-icon-delete" ng-show="task === 'edit'"
+          ng-click="removeItem()"
+          confirm="Do you want to delete {{item.name}}?">
+    <span class="btn-text-section">Delete</span>
+    <span class="btn-icon-section">
+      <span class="glyphicon glyphicon-remove"></span>
+    </span>
+  </button>
+
+  <!--Cancel-->
+  <button class="btn btn-icon btn-icon-cancel" ng-click="$close()">
+    <span class="btn-text-section">Cancel</span>
+    <span class="btn-icon-section">
+      <span class="glyphicon glyphicon-ban-circle"></span>
+    </span>
+  </button>
+
+  <!--Add-->
+  <button class="btn btn-icon btn-icon-save" ng-show="task === 'add'" ng-click="createNewItem()">
+    <span class="btn-text-section">Add</span>
+    <span class="btn-icon-section">
+      <span class="glyphicon glyphicon-plus"></span>
+    </span>
+  </button>
+
+  <!--Save-->
+  <button class="btn btn-icon btn-icon-save" ng-show="task === 'edit'" ng-click="saveItem()">
+    <span class="btn-text-section">Save</span>
+    <span class="btn-icon-section">
+      <span class="glyphicon glyphicon-ok"></span>
+    </span>
+  </button>
+
+</div>

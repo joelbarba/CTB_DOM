@@ -1,0 +1,88 @@
+ul.table-list {
+  width:100%;
+  height:auto;
+  float: left;
+  list-style: none;
+
+  > li {
+    width:100%;
+    height:auto;
+    float: left;
+    padding: 8px 20px;
+
+    // Header of the list
+    &.darkBg {
+      padding:8px 20px;
+      background: $primary_color;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      h4, h5, span {
+        color: $primary_color_invert;
+        &.sortable-col-header {
+          cursor: pointer;
+        }
+      }
+    }
+
+    h4, h5, span {
+      font-size: 15px;
+      letter-spacing: 1px;
+    }
+
+    &:nth-child(even):not(.darkBg){
+      background:rgba($primary_color, 0.08);
+    }
+    &:nth-child(odd):not(.darkBg){
+      background:$primary_color_invert;
+    }
+    &.selected-row {
+      background-color: lighten($primary_color, 50%);
+    }
+
+    // Special padding for rows with button inside
+    &.btn-row {
+      padding: 4px 20px 4px;
+
+      .row-text {
+        padding-top: 2px;
+      }
+
+      // Button inside a row of the table
+      .btn-icon {
+        .btn-text-section {
+          font-size:12px;
+          padding: 4px 12px 4px 14px;
+        }
+
+        .btn-icon-section {
+          height: 24px;
+          padding: 4px 8px 3px 10px;
+          font-size: 10px;
+        }
+      }
+    }
+
+
+
+  }
+}
+
+.recursive-table {
+  li.btn-row {
+    &.expanded-row {
+      padding: 3px 19px;
+      border: 1px solid #d0d0d0;
+    }
+  }
+
+  .nested-area > div.row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: -35px;
+    .level-separator {
+      margin-left: 15px;
+      margin-right: 15px;
+      border: 1px solid #d0d0d0;
+    }
+  }
+}

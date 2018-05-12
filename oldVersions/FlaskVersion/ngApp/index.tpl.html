@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- build:css(./src) fullStyles.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+
+    <!-- include: "type": "css", "files": "styles/*.css" -->
+  <!-- endbuild -->
+
+</head>
+<body>
+  <div class="container-fluid">
+    <div navbar></div>
+    <div growl></div>
+
+    <!--[if lt IE 7]>
+        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!--Page content-->
+    <div class="row">
+      <div class="col-xs-12" ng-view></div>
+    </div>
+
+    <!--Footer-->
+    <!--<div class="row">-->
+      <!--<div class="col-xs-12">Angular seed app: v<span app-version></span></div>-->
+    <!--</div>-->
+
+
+  </div>
+
+  <!-- build:js(.) scripts/fullApp.js -->
+    <!-- bower:js -->
+    <!-- endbower -->
+
+    <!-- include: "type": "js", "files": "app.js" -->
+
+    <!-- include: "type": "js", "files": ["views/**/*.js", "views/**/!*_test.js"] -->
+
+    <!-- include: "type": "js", "files": ["components/**/*.js", "!components/**/*test.js"] -->
+
+  <!-- endbuild -->
+
+</body>
+</html>

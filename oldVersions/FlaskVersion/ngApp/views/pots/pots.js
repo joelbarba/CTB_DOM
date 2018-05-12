@@ -24,12 +24,7 @@ angular.module('myApp.pots', ['ngRoute'])
 .controller('realPotsController', function($scope, growl, $uibModal, $resource) {
   "ngInject";
 
-  var apiServer = 'http://127.0.0.1:3000';
-  var realPotsResource = $resource(apiServer + '/api/v1/real_pots/:realPotId', 
-    { realPotId: '@id' }, 
-    { withCredentials: false,
-      patch: { method: 'PATCH' }
-    });
+  var realPotsResource = $resource('/api/v1/real_pots/:realPotId', { realPotId: '@id' });
 
   // Load realPots list
   realPotsResource.get(function(data) {
@@ -76,7 +71,7 @@ angular.module('myApp.pots', ['ngRoute'])
         $scope.saveItem = function() {
           var updatedItem = angular.copy($scope.item);
           updatedItem.amount = Number(updatedItem.amount);
-          realPotsResource.patch(updatedItem, function(data) {
+          realPotsResource.save(updatedItem, function(data) {
             var listItem = $scope.realPotsList.getById(data.real_pot.id);
             if (listItem) {
               angular.merge(listItem, data.real_pot);
