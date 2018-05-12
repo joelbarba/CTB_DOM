@@ -116,6 +116,48 @@ def get_root_list(parent_id=None):
 
     return acc_pots_list
 
+# Returns the object recursively
+def get_recursive_list(parent_id=None):
+
+    if parent_id is None:
+        sql_sent = text("select t1.id, t1.pos, t1.name, t1.amount, t1.parent_id, "
+                        "       (select count(*)"
+                        "          from acc_pots"
+                        "         where parent_id = t1.id) as children "
+                        "  from acc_pots t1"
+                        " where parent_id is null")
+    else:
+        sql_sent = text("select t1.id, t1.pos, t1.name, t1.amount, t1.parent_id, "
+                        "       (select count(*)"
+                        "          from acc_pots"
+                        "         where parent_id = t1.id) as children "
+                        "  from acc_pots t1"
+                        " where parent_id = '" + parent_id + "'")
+
+
+    result = conn.execute(sql_sent).fetchall()
+
+    acc_pots_list = []
+
+    for row in result:
+        id = str(row[0])
+        if row[5] == 0:
+            children = []
+        else:
+            children = get_recursive_list(id)
+
+        acc_pots_list.append({
+            'id'           : id,
+            'pos'          : row[1],
+            'name'         : str(row[2]),
+            'amount'       : str(row[3]),
+            'parent_id'    : str(row[4]),
+            'children'     : children
+        })
+
+    # result.close()
+    return acc_pots_list
+
 
 
 def session_commit():

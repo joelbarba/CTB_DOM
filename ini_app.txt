@@ -1,0 +1,7 @@
+# Run all this in the command line (it does not work in a bash):
+virtualenv env
+source ./env/bin/activate
+pip install -r requirements.txt
+deactivate
+chmod a+x app.py
+./app.py

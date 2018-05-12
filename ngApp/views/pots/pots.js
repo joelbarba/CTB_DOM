@@ -113,59 +113,62 @@ angular.module('myApp.pots', ['ngRoute'])
 
   // Load accPots list
   accPotsResource.get({ parent_id: null }, {}, function(data) {
-//  accPotsResource.get({ parent_id: 'f1343a3f-5494-4ae1-aa95-84a2fed5594b' }, {}, function(data) {
     if (!!data && data.hasOwnProperty('acc_pots')) {
       $scope.accPotsList = angular.copy(data.acc_pots);
     }
   });
 
-  $scope.expandChildren = function(parentRow) {
-    if (parentRow.isExpanded) {
-        parentRow.isExpanded = false;
-    } else {
-      if (!parentRow.isExpanding) {
-        parentRow.isExpanding = true;
-        accPotsResource.get({ parent_id: parentRow.id }, {}, function(data) {
-          if (!!data && data.hasOwnProperty('acc_pots')) {
-            parentRow.children = angular.copy(data.acc_pots);
-            parentRow.isExpanding = false;
-            parentRow.isExpanded = true;
-          }
-        });
-      }
+})
+.component('accPotLevelList', {
+    templateUrl: 'views/pots/accPotLevelList.html',
+    controller: 'accPotLevelListCtrl',
+    controllerAs: "$ctrl",
+    bindings: {
+      accPotsList: '=',
+      level: '@'
     }
-  };
+  }
+)
+.controller('accPotLevelListCtrl', function($scope, growl, $uibModal, $resource, $timeout) {
+  "ngInject";
+  var $ctrl = this;
+  var accPotsAPI = $resource('/api/v1/acc_pots/:accPotId', { accPotId: '@id' });
 
   // Open add Real Pot modal
-  $scope.openAddModal = function() {
-    $scope.task = 'add';
-    $scope.item = { pos: 1, amount: 0 };
-    $scope.accPotsList.forEach(function(pot) {
-      if ($scope.item.pos <= pot.pos) { $scope.item.pos = pot.pos + 1; }
+  $ctrl.openAddModal = function() {
+    $ctrl.item = { pos: 1, amount: 0 };
+    $ctrl.accPotsList.forEach(function(pot) {
+      if ($ctrl.item.pos <= pot.pos) { $ctrl.item.pos = pot.pos + 1; }
     });
-    openModal();
+    openModal('add', $ctrl.item, $ctrl.accPotsList);
   };
 
   // Open edit Real Pot modal
-  $scope.openEditModal = function(selectedItem) {
-    $scope.task = 'edit';
-    accPotsResource.get({ accPotId: selectedItem.id }, function(data) {
-      $scope.item = angular.copy(data.acc_pot);
-      openModal();
+  $ctrl.openEditModal = function(selectedItem) {
+    accPotsAPI.get({ accPotId: selectedItem.id }, function(data) {
+      $ctrl.item = angular.copy(data.acc_pot);
+      openModal('edit', $ctrl.item, $ctrl.accPotsList);
     });
   };
 
-  function openModal() {
+  function openModal(task, item, list) {
     $uibModal.open({
       size        : 'md',
       templateUrl : 'views/pots/accPotModal.html',
-      scope       : $scope,
-      controller  : function($scope, $uibModalInstance) {
+      resolve     : {
+        Task : function() { return task; },
+        Item : function() { return item; },
+        List : function() { return list; }
+      },
+      controller  : function($scope, $uibModalInstance, Task, Item, List) {
         "ngInject";
 
+        $scope.task = Task;
+        $scope.item = Item;
+
         $scope.createNewItem = function() {
-          accPotsResource.save($scope.item, function(data) {
-            $scope.accPotsList.push(data.acc_pot);
+          accPotsAPI.save($scope.item, function(data) {
+            List.push(data.acc_pot);
             growl.success("New Pot created successfully");
             $uibModalInstance.close();
           });
@@ -174,8 +177,8 @@ angular.module('myApp.pots', ['ngRoute'])
         $scope.saveItem = function() {
           var updatedItem = angular.copy($scope.item);
           updatedItem.amount = Number(updatedItem.amount);
-          accPotsResource.save(updatedItem, function(data) {
-            var listItem = $scope.accPotsList.getById(data.acc_pot.id);
+          accPotsAPI.save(updatedItem, function(data) {
+            var listItem = List.getById(data.acc_pot.id);
             if (listItem) {
               angular.merge(listItem, data.acc_pot);
             }
@@ -188,8 +191,8 @@ angular.module('myApp.pots', ['ngRoute'])
         };
 
         $scope.removeItem = function() {
-          accPotsResource.remove({ accPotId: $scope.item.id }, function() {
-            $scope.accPotsList.removeById($scope.item.id);
+          accPotsAPI.remove({ accPotId: $scope.item.id }, function() {
+            List.removeById($scope.item.id);
             $uibModalInstance.close();
           });
         };

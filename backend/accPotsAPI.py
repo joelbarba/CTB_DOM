@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, abort, make_response, request
-from accPotsModel import AccPots, get_root_list
+from accPotsModel import AccPots, get_root_list, get_recursive_list
 
 acc_pots_api = Blueprint('acc_pots_api', __name__)
 
@@ -9,22 +9,16 @@ acc_pots_api = Blueprint('acc_pots_api', __name__)
 def get_acc_pots(parent_id):
     resp = {'acc_pots': []}
 
-    if 'parent_id' in request.args:
-        parent_id = str(request.args['parent_id'])
-        print("parent Id = " + parent_id)
-        resp['acc_pots'] = get_root_list(parent_id)
-    else:
-        print("NO PARENT ID")
-        resp['acc_pots'] = get_root_list()
+    resp['acc_pots'] = get_recursive_list()
 
-
-    # if not parent_id:
-    #     pass
-    #
+    # if 'parent_id' in request.args:
+    #     parent_id = str(request.args['parent_id'])
+    #     print("parent Id = " + parent_id)
+    #     resp['acc_pots'] = get_root_list(parent_id)
     # else:
-    #     acc_pots_list = AccPots.query.all()
-    #     for acc_pot in acc_pots_list:
-    #         resp['acc_pots'].append(acc_pot.get_row())
+    #     print("NO PARENT ID")
+    #     resp['acc_pots'] = get_root_list()
+
 
     return jsonify(resp)
 
@@ -77,6 +71,9 @@ def update_acc_pot(acc_pot_id):
 
     if not request.json:
         abort(400)
+
+    if 'parent_id' in request.json:
+        acc_pot.parent_id = request.json['parent_id']
 
     if 'pos' in request.json:
         acc_pot.pos = request.json['pos']

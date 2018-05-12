@@ -23,62 +23,15 @@
 
   </div>
 
-  <div class="row">
-    <div class="col-xs-12">
-      <ul class="list-unstyled table-list">
+  <div class="row recursive-table">
+    <acc-pot-level-list
+            acc-pots-list="accPotsList"
+            level="0">
+    </acc-pot-level-list>
 
-        <li class="darkBg">
-          <div class="row">
-            <div class="col-xs-2" list-col-title title-text="Pos"     field="pos"     order-params="orderParams"></div>
-            <div class="col-xs-4" list-col-title title-text="Name"    field="name"    order-params="orderParams"></div>
-            <div class="col-xs-3" list-col-title title-text="Amount"  field="amount"  order-params="orderParams"></div>
-          </div>
-        </li>
-
-        <li class="btn-row" pagination-id="paginationListId"
-            ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}"
-            dir-paginate="accPotItem in accPotsList
-                          | filter: searchBox
-                          | orderBy: orderParams.orderByField: orderParams.reverseSort
-                          | itemsPerPage: 15">
-          <div class="row">
-            <div class="col-xs-2 row-text">
-              <button class="btn btn-icon"
-                      ng-click="expandChildren(accPotItem)"
-                      ng-disabled="accPotItem.childrenCount==0">
-                <!--<span class="btn-text-section">Edit</span>-->
-                <span class="btn-icon-section">
-                  <span class="glyphicon"
-                        ng-class="accPotItem.isExpanded ? 'glyphicon-minus' : 'glyphicon-plus'">
-                  </span>
-                </span>
-              </button>
-            </div>
-            <div class="col-xs-4 row-text"><span>{{accPotItem.pos}} - {{accPotItem.name}}</span></div>
-            <div class="col-xs-3 row-text"><span>{{accPotItem.amount}}</span></div>
-
-            <div class="col-xs-3 text-right">
-              <button class="btn btn-icon" ng-click="openEditModal(accPotItem)">
-                <span class="btn-text-section">Edit</span>
-                <span class="btn-icon-section">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                </span>
-              </button>
-            </div>
-
-            <div class="col-xs-12" ng-if="accPotItem.isExpanded">
-              children={{accPotItem.children}}
-            </div>
-
-          </div>
-        </li>
-
-      </ul>
-    </div>
-
-    <div class="col-xs-12">
-      <dir-pagination-controls pagination-id="paginationListId"></dir-pagination-controls>
-    </div>
+    <!--<div class="col-xs-12">-->
+      <!--<dir-pagination-controls pagination-id="paginationListId"></dir-pagination-controls>-->
+    <!--</div>-->
 
   </div>
 
