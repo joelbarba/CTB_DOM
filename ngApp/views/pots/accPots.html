@@ -13,7 +13,7 @@
 
     <!-- Add button -->
     <div class="col-sm-4 text-right">
-      <button class="btn btn-icon" ng-click="openAddModal()">
+      <button class="btn btn-icon" ng-click="$ctrl.openAddModal()">
         <span class="btn-text-section">Add Acc Pot</span>
         <span class="btn-icon-section">
           <span class="glyphicon glyphicon-plus"></span>
@@ -25,7 +25,7 @@
 
   <div class="row recursive-table">
     <acc-pot-level-list
-            acc-pots-list="accPotsList"
+            acc-pots-list="$ctrl.accPotsList"
             level="0">
     </acc-pot-level-list>
 

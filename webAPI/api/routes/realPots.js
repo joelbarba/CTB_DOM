@@ -40,7 +40,6 @@ const shouldAbort = (err) => {
 
 
 
-  
 // Retrieves the list of all real pots
 router.get('/', (req, res, next) => {
   connectPromise.then(() => {

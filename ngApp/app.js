@@ -22,4 +22,7 @@ config(function($locationProvider, $routeProvider, growlProvider) {
   growlProvider.globalDisableCountDown(true);
 
   $routeProvider.otherwise({redirectTo: '/pots'});
+})
+.run(function($rootScope) {
+  $rootScope.apiURL = 'http://127.0.0.1:3000';
 });
