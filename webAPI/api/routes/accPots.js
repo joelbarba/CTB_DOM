@@ -185,7 +185,7 @@ router.delete('/:accPotId', (req, res, next) => {
 });
 
 
-// Edit an existing Real Pot
+// Edit an existing Accountant Pot
 router.patch('/:accPotId', (req, res, next) => {
   const currentPot = {
       id      : req.params.accPotId,
@@ -200,22 +200,51 @@ router.patch('/:accPotId', (req, res, next) => {
 
       client.query('UPDATE acc_pots SET pos = $2, name = $3, amount = $4 '
                       + 'WHERE id = $1'
-                      + 'RETURNING id, pos, name, amount', 
+                      + 'RETURNING id, pos, name, amount, parent_id', 
                   [currentPot.id, currentPot.pos, currentPot.name, currentPot.amount], (err, result) => {
         if (shouldAbort(err)) { res.status(400).json({error: 'DB error'}); return; };
         
-        console.log('AFTER UPDATE', result);
-        
-        client.query('COMMIT', (err) => {
-          if (err) { res.status(400).json({error: 'DB error'}); return; };
-          console.log('New acc_pot updated successfully');
-          res.status(201).json({acc_pot: result.rows[0]});
-        })
+        // console.log('AFTER UPDATE', result);
+        var acc_pot = result.rows[0];
+        var parentPath = {};
+        updateParentAmount(result.rows[0].parent_id, parentPath).then(function() {
+          acc_pot.parent = parentPath;
+          client.query('COMMIT', (err) => {
+            if (err) { res.status(400).json({error: 'DB error'}); return; };
+            console.log('New acc_pot updated successfully', acc_pot);
+            res.status(201).json({acc_pot: acc_pot});
+          });
 
+        });
       });
     });
   });
 });
+
+// Update the amount of the pot, and its parents recusively until root
+function updateParentAmount(potId, parentPath) {
+  if (!potId) {
+    parentPath = {};
+    return Promise.resolve();
+
+  } else {
+    return client.query('update acc_pots t1 '
+               + '   set amount = (select sum(amount) from acc_pots t2 where t2.parent_id = t1.id)'
+               + ' where id = $1 '
+               + ' RETURNING parent_id, amount ', [potId]).then((result) => {
+                 
+      parentPath.id = potId;
+      parentPath.amount = result.rows[0].amount;
+      parentPath.parent = {};
+      
+      var prom = updateParentAmount(result.rows[0].parent_id, parentPath.parent);
+      return prom;
+
+    }).catch((err) => {
+      console.log('error');
+    });
+  }
+}
 
 
 module.exports = router;

@@ -272,8 +272,20 @@ angular.module('myApp.pots', ['ngRoute'])
             if (listItem) {
               angular.merge(listItem, data.acc_pot);
             }
+            
+            updatePot(data.acc_pot);
+            function updatePot(updatedPot) {
+              var listItem = AccPotsService.getPotById(updatedPot.id);
+              if (listItem) {
+                listItem.amount = updatedPot.amount;
+              }
+              if (!!updatedPot.parent.id) {
+                updatePot(updatedPot.parent);
+              }
+            }
+
             growl.success("Pot saved successfully");
-            $uibModalInstance.close(listItem);
+            $uibModalInstance.close(data.acc_pot);
           }, function(error) {
               growl.error(error.data.error);
             }

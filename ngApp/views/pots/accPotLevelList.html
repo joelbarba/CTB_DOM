@@ -20,9 +20,19 @@
           <div class="row">
 
             <div class="col-xs-2 row-text">
+                <span>{{accPotItem.pos}}</span>
+            </div>
+
+            <div class="col-xs-4 row-text"><span>{{accPotItem.pos}} - {{accPotItem.name}}</span></div>
+            <div class="col-xs-3 row-text">
+              <span ng-class="{'fix-amount': accPotItem.children.length}">{{'€ ' + accPotItem.amount}}</span>
+            </div>
+
+
+            <div class="col-xs-1 row-text text-right">
               <button class="btn btn-icon"
                       ng-click="accPotItem.isExpanded = !accPotItem.isExpanded"
-                      ng-disabled="!accPotItem.children.length">
+                      ng-show="!!accPotItem.children.length">
                 <span class="btn-icon-section">
                   <span class="glyphicon"
                         ng-class="accPotItem.isExpanded ? 'glyphicon-minus' : 'glyphicon-plus'">
@@ -31,10 +41,7 @@
               </button>
             </div>
 
-            <div class="col-xs-4 row-text"><span>{{accPotItem.pos}} - {{accPotItem.name}}</span></div>
-            <div class="col-xs-3 row-text"><span>{{accPotItem.amount}}</span></div>
-
-            <div class="col-xs-3 text-right">
+            <div class="col-xs-2 text-right">
               <button class="btn btn-icon" ng-click="$ctrl.openEditModal(accPotItem)">
                 <span class="btn-text-section">Edit</span>
                 <span class="btn-icon-section">

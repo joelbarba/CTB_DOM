@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "http-server -a localhost -p 8000 -c-1 ./ngApp --cors"
+    "start": "http-server -a localhost -p 8000 -c-1 ./ngApp --cors",
+    "css": "node-sass ngApp/styles/scss/imports.scss ngApp/styles/app.css"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,8 @@
   },
   "homepage": "https://github.com/joelbarba/CTB_DOM#readme",
   "devDependencies": {
-    "http-server": "^0.11.1"
-  }
+    "http-server": "^0.11.1",
+    "node-sass": "^4.9.0"
+  },
+  "dependencies": {}
 }
