@@ -185,25 +185,33 @@ angular.module('myApp.pots', ['ngRoute'])
 
   // Load accPots list
   AccPotsService.loadAccPots = function() {
-    return AccPotsAPI.get({ parent_id: null }, {}, function(data) {
+    return AccPotsAPI.get({ parent_id: null }, {}).$promise.then(function(data) {
       if (!!data && data.hasOwnProperty('acc_pots')) {
         AccPotsService.accPotsList = angular.copy(data.acc_pots);
         
         AccPotsService.accPotsFlatList = [];
-        flatenLevel(AccPotsService.accPotsList);
+        flatenLevel(AccPotsService.accPotsList, '', 0);
         
-        function flatenLevel(list) {
+        function flatenLevel(list, parentPos, level) {
+          list.sort(function(itemA, itemB) {
+            return itemA.pos > itemB.pos;
+          });
           list.forEach(function(pot) {
+            pot.level = level;
+            
             var flatPot = angular.copy(pot);
+            flatPot.fullPos = (parentPos ? (parentPos + '.') : '') + pot.pos;
+            flatPot.displayName = flatPot.fullPos + '. ' + flatPot.name;
+            flatPot.displayTabName = ' '.repeat(level * 4) + flatPot.fullPos + '. ' + flatPot.name;
             delete flatPot.children;
             AccPotsService.accPotsFlatList.push(flatPot);
             if (!!pot.children.length) {
-              flatenLevel(pot.children);
+              flatenLevel(pot.children, flatPot.fullPos, level+1);
             }  
           });
         }
       }
-    }).$promise;
+    });
   }
 
   // Returns the Acc pot finding recursively by ID

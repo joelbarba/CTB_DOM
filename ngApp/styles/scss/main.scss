@@ -13,6 +13,10 @@ body {
   }
 }
 
+ul.table-list > li.darkBg {
+  padding: 2px 20px;
+}
+
 .clickable {
   cursor: pointer;
 }
@@ -23,4 +27,15 @@ body {
   background: #ffcbcb;
   padding: 1px 10px;
   border: 1px solid #a25858;
+}
+
+.amount {
+  font-family: monospace;
+  font-size: 14px;
+  &.positive {
+    color: #26af33;
+  }
+  &.negative {
+    color: #de2929;
+  }
 }

@@ -6,6 +6,7 @@ const app = express();
 
 const realPotsRoute = require('./api/routes/realPots');
 const accPotsRoute = require('./api/routes/accPots');
+const ledgerRoute = require('./api/routes/ledger');
 
 
 
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/real_pots', realPotsRoute);
 app.use('/api/v1/acc_pots', accPotsRoute);
+app.use('/api/v1/ledger', ledgerRoute);
 
 app.use((req, res, next) => {
     const error = new Error('Not Found');

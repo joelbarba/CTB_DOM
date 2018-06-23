@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-xs-12">
+    <h1>LEDGER</h1>
+  </div>
+</div>
+
+
+<div class="row">
+
+  <!-- Search box -->
+  <div class="col-sm-8">
+    <div class="form-group">
+      <input type="text" id="search-box" ng-model="searchBox" class="form-control" placeholder="Filter the list by ...">
+    </div>
+  </div>
+
+  <!-- Add button -->
+  <div class="col-sm-4 text-right">
+    <button class="btn btn-icon" ng-click="openAddModal()">
+      <span class="btn-text-section">Add Transaction</span>
+      <span class="btn-icon-section">
+        <span class="glyphicon glyphicon-plus"></span>
+      </span>
+    </button>
+  </div>
+
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="list-unstyled table-list">
+
+      <li class="darkBg">
+        <div class="row">
+          
+          <div class="col-xs-6">
+            <div class="row">
+                <div class="col-sm-2" list-col-title title-text="Num / Date" field="mov_num"order-params="orderParams"></div>
+                <div class="col-sm-3" list-col-title title-text="Description"></div>
+                <div class="col-sm-2 text-right" list-col-title title-text="Amount"></div>
+                <div class="col-sm-2" list-col-title title-text="Real"></div>
+                <div class="col-sm-2" list-col-title title-text="Acc"></div>
+            </div>
+          </div>
+          
+          <div class="col-xs-6">
+            <div class="row">
+              <!-- <div class="col-sm-2 text-right" list-col-title title-text="Total"></div> -->
+              <div class="col-sm-2 text-right">
+                <select ng-model="colRPot" style="padding: 4px 10px; margin-top: 5px; width: 100%; text-align-last: right;">
+                  <option ng-repeat="realPot in realPots" ng-value="realPot.id">{{realPot.pos + '. ' + realPot.name}}</option>
+                </select>
+              </div>
+              colRPot={{colRPot}}
+
+            </div>
+          </div>
+
+        </div>
+      </li>
+
+      <!-- | orderBy: orderParams.orderByField: orderParams.reverseSort -->
+      <li class="btn-row" pagination-id="paginationListId"
+          ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}"
+          dir-paginate="movement in ledgerList
+                        | filter: searchBox
+                        | itemsPerPage: 30">
+        <div class="row">
+          <div class="col-xs-6">
+            <div class="row">
+              <div class="col-sm-2 row-text"><span>{{movement.mov_num + ' - ' + (movement.mov_date | date:'yyyy-MM-dd')}}</span></div>
+              <div class="col-sm-3 row-text"><span>{{movement.description}}</span></div>
+              <div class="col-sm-2 row-text text-right">
+                <span class="amount" ng-class="movement.amount < 0 ? 'negative' : 'positive'">{{movement.amount | twoDecimal}}</span>
+              </div>
+              <div class="col-sm-2 row-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><span>{{movement.realPot.pos + '. ' + movement.realPot.name}}</span></div>
+              <div class="col-sm-2 row-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><span>{{movement.accPot.fullPos + '. ' + movement.accPot.name}}</span></div>
+              
+              <div class="col-sm-1">
+                <button class="btn btn-icon" ng-click="openEditMov(movement)">
+                  <!-- <span class="btn-text-section">Edit</span> -->
+                  <span class="btn-icon-section">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+            
+          <div class="col-xs-6">
+            <div class="row">
+              <div class="col-sm-2 row-text text-right">
+                <span class="amount">{{movement.total_real_post | twoDecimal}}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </li>
+
+    </ul>
+  </div>
+
+  <div class="col-xs-12">
+    <dir-pagination-controls pagination-id="paginationListId"></dir-pagination-controls>
+  </div>
+
+</div>
+

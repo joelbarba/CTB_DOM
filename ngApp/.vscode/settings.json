@@ -1,0 +1,4 @@
+{
+    // Controls if the minimap is shown
+    "editor.minimap.enabled": false,
+}

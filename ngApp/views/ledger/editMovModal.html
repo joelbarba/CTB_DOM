@@ -1,0 +1,138 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="$close()"><span aria-hidden="true">&times;</span></button>
+    <h3 class="modal-title">
+      <span>Edit Movement</span>
+      <span style="float: right; font-size: 16px; margin: 10px 25px 0 0;">Mov ID: {{item.id}}</span>
+    </h3>
+  </div>
+  
+  <div class="modal-body">
+    <form name="newItemForm" novalidate>
+      <div class="row">
+  
+        <!--Date-->
+        <div class="col-md-3 form-group">
+          <label for="posInputItem">Mov Date</label>
+          <p class="input-group">
+            <input type="text" class="form-control" uib-datepicker-popup ng-model="item.mov_date" 
+                   is-open="datePopup.opened" datepicker-options="dateOptions" 
+                   ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" style="height: 34px;"
+                      ng-click="datePopup.opened=true">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+          </p>
+        </div>
+        
+        <!--Num-->
+        <div class="col-md-2 form-group">
+          <label for="posInputItem">Mov Num</label>
+          <input type="text" class="form-control" ng-model="item.mov_num">
+        </div>
+        <!-- <div class="col-md-2">
+          <input type="checkbox" style="display: inline-block; width: 20px; height: 20px; margin-top: 30px; margin-right: 5px;" class="form-control" ng-model="lastMovNum">
+          <label for="posInputItem" style="vertical-align: super;">Last of Date</label>
+        </div> -->
+
+        <div class="col-md-7 form-group" style="padding-top: 23px;">
+          <button class="btn btn-icon btn-icon-cancel" ng-click="$close()">
+            <span class="btn-text-section">Last Date</span>
+          </button>
+          <button class="btn btn-icon btn-icon-cancel" ng-click="$close()">
+            <span class="btn-text-section">Last Num</span>
+          </button>
+        </div>
+
+      
+      </div>
+      <div class="row">
+
+        <!--Amount-->
+        <div class="col-md-3 form-group">
+          <label for="amountInputItem">Amount €</label>
+          <input type="text" class="form-control" style="text-align: right; font-family: monospace;" placeholder="0" ng-model="item.amount">
+        </div>
+        
+
+        <!--Pot R-->
+        <div class="col-md-4 form-group">
+          <label for="amountInputItem">Real Pot</label>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" style="width: 100%; text-align: left;"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              {{realPotSelected.pos + '. ' + realPotSelected.name}}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li style="cursor: pointer;"><a ng-click="selRealPot()">Empty</a></li>
+              <li role="separator" class="divider"></li>
+              <li style="cursor: pointer;" ng-repeat="realPot in realPots">
+                <a ng-click="selRealPot(realPot)" ng-show="realPot.pos>0">{{realPot.pos + '. ' + realPot.name}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!--Pot A-->
+        <div class="col-md-4 form-group">
+          <label for="amountInputItem">Acc Pot</label>
+          <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" style="width: 100%; text-align: left;"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              {{accPotSelected.displayTabName}}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li style="cursor: pointer;"><a ng-click="selRealPot()">Empty</a></li>
+              <li role="separator" class="divider"></li>
+              <li style="cursor: pointer;" ng-repeat="accPot in accPots">
+                <a ng-click="selAccPot(accPot)" ng-show="accPot.pos>0" style="white-space: pre;">{{accPot.displayTabName}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+         
+      </div>
+      <div class="row">
+        <!--Description-->
+        <div class="col-md-12 form-group">
+            <label for="nameInputItem">Desc</label>
+            <input type="text" class="form-control" id="nameInputItem" placeholder="Movement..." ng-model="item.description">
+          </div>  
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <div class="modal-footer">
+  
+    <!--Remove-->
+    <button class="btn btn-icon btn-icon-delete" ng-show="task === 'edit'"
+            ng-click="removeItem()"
+            confirm="Do you want to delete {{item.name}}?">
+      <span class="btn-text-section">Delete</span>
+      <span class="btn-icon-section">
+        <span class="glyphicon glyphicon-remove"></span>
+      </span>
+    </button>
+  
+    <!--Cancel-->
+    <button class="btn btn-icon btn-icon-cancel" ng-click="$close()">
+      <span class="btn-text-section">Cancel</span>
+      <span class="btn-icon-section">
+        <span class="glyphicon glyphicon-ban-circle"></span>
+      </span>
+    </button>
+  
+    <!--Save-->
+    <button class="btn btn-icon btn-icon-save" ng-show="task === 'edit'" ng-click="saveItem()">
+      <span class="btn-text-section">Save</span>
+      <span class="btn-icon-section">
+        <span class="glyphicon glyphicon-ok"></span>
+      </span>
+    </button>
+  
+  </div>
+  

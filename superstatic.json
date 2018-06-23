@@ -1,0 +1,6 @@
+{
+  "public": "ngApp",
+  "routes": [
+    {"**": "index.html"}
+  ]
+}
