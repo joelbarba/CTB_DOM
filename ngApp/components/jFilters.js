@@ -4,12 +4,11 @@ var jFilters = angular.module('myApp.jFilters', []);
 
 jFilters.filter('twoDecimal', function() {
   return function(inputVal) {
-    try {
-      var numVal = parseInt(inputVal);
-      return numVal.toFixed(2) + ' €';
-
-    } catch(err) {
+    if (isNaN(inputVal)) {
       return inputVal;
+    } else {
+      var numVal = parseFloat(inputVal);
+      return numVal.toFixed(2) + ' €';
     }
   };
 });

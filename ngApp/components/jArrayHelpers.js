@@ -125,3 +125,11 @@ Array.prototype.removeById = function(id) {
 //   return !!this.getById(id);
 // };
 //
+
+
+Date.prototype.getAPIDate = function() {
+  var strValue = ('0000' + this.getFullYear()).slice(-4).toString();
+  strValue += '-' + ('00' + (this.getMonth() + 1)).slice(-2).toString();
+  strValue += '-' + ('00' + (this.getDate())).slice(-2).toString();
+  return strValue;
+};

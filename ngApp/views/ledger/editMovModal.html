@@ -7,12 +7,12 @@
   </div>
   
   <div class="modal-body">
-    <form name="newItemForm" novalidate>
+    <form name="editMovForm" novalidate>
       <div class="row">
   
         <!--Date-->
         <div class="col-md-3 form-group">
-          <label for="posInputItem">Mov Date</label>
+          <label>Mov Date</label>
           <p class="input-group">
             <input type="text" class="form-control" uib-datepicker-popup ng-model="item.mov_date" 
                    is-open="datePopup.opened" datepicker-options="dateOptions" 
@@ -28,7 +28,7 @@
         
         <!--Num-->
         <div class="col-md-2 form-group">
-          <label for="posInputItem">Mov Num</label>
+          <label>Mov Num</label>
           <input type="text" class="form-control" ng-model="item.mov_num">
         </div>
         <!-- <div class="col-md-2">
@@ -47,18 +47,20 @@
 
       
       </div>
+
+
       <div class="row">
 
         <!--Amount-->
         <div class="col-md-3 form-group">
-          <label for="amountInputItem">Amount €</label>
+          <label>Amount €</label>
           <input type="text" class="form-control" style="text-align: right; font-family: monospace;" placeholder="0" ng-model="item.amount">
         </div>
         
 
         <!--Pot R-->
         <div class="col-md-4 form-group">
-          <label for="amountInputItem">Real Pot</label>
+          <label>Real Pot</label>
           <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" style="width: 100%; text-align: left;"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -77,7 +79,7 @@
 
         <!--Pot A-->
         <div class="col-md-4 form-group">
-          <label for="amountInputItem">Acc Pot</label>
+          <label>Acc Pot</label>
           <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" style="width: 100%; text-align: left;"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -95,19 +97,22 @@
         </div>
          
       </div>
+
+      <!--Description-->
       <div class="row">
-        <!--Description-->
         <div class="col-md-12 form-group">
-            <label for="nameInputItem">Desc</label>
-            <input type="text" class="form-control" id="nameInputItem" placeholder="Movement..." ng-model="item.description">
-          </div>  
+          <label for="nameInputItem">Desc</label>
+          <input type="text" class="form-control" id="nameInputItem"
+                 placeholder="Movement..."
+                 ng-model="item.description">
         </div>
       </div>
+
     </form>
   </div>
   
   <div class="modal-footer">
-  
+
     <!--Remove-->
     <button class="btn btn-icon btn-icon-delete" ng-show="task === 'edit'"
             ng-click="removeItem()"
@@ -127,7 +132,7 @@
     </button>
   
     <!--Save-->
-    <button class="btn btn-icon btn-icon-save" ng-show="task === 'edit'" ng-click="saveItem()">
+    <button class="btn btn-icon btn-icon-save" ng-show="task === 'edit'" ng-disabled="!hasChanged()" ng-click="saveItem()">
       <span class="btn-text-section">Save</span>
       <span class="btn-icon-section">
         <span class="glyphicon glyphicon-ok"></span>

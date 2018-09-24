@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTB_DOM - API Doc</title>
+  <style>
+    .api-url.get {
+      color: limegreen;
+    }
+    .api-url.post {
+      color: goldenrod;
+    }
+    .api-url.delete {
+      color: red;
+    }
+    .api-url.edit {
+      color: blue;
+    }
+    .request-table {
+      border-collapse: collapse;
+      margin-left: 40px;
+    }
+    .request-table td {
+      border: 1px solid black;
+      padding: 2px 5px;
+    }
+  </style>
+</head>
+<body>
+
+<!--Ledger-->
+<div>
+
+  <h1>Ledger</h1>
+  <hr>
+
+  <!--Get All Ledger-->
+  <div>
+    <h2>Ledger (GET) All - <span class="api-url get">/api/v1/ledger</span> </h2>
+    <p>Retrieves the list of the whole ledger</p>
+    <h3>Request Body: None</h3>
+    <h3>Response Example:</h3>
+    <pre>
+      "ledger" : [
+        { "id"              : "6518f4ec-5be7-46ed-bd19-b8cab9f6c251",
+          "mov_num"         : "65760001",
+          "mov_date"        : "2018-01-02T00:00:00.000Z",
+          "description"     : "Aircoach from airport 263",
+          "amount"          : "-7.05",
+          "real_pot_id"     : "e4f35918-06c9-4b30-b4f7-0932a6715ea6",
+          "acc_pot_id"      : "a20897bf-75b9-496a-9f23-854bad416536",
+          "mov_group_id"    : null,
+          "total_real_post" : "10.4",
+          "total_acc_post"  : "12.6"
+        },
+        { ... }
+      ]
+    </pre>
+    <hr>
+  </div>
+
+
+  <!--Get One Move-->
+  <div>
+    <h2>Ledger (GET) One Mov - <span class="api-url get">/api/v1/ledger/:movId</span> </h2>
+    <h3>Request Body: None</h3>
+    <h3>Response Example:</h3>
+    <pre>
+      "movement": {
+        "id"              : "6518f4ec-5be7-46ed-bd19-b8cab9f6c251",
+        "mov_num"         : "65760001",
+        "mov_date"        : "2018-01-02T00:00:00.000Z",
+        "description"     : "Aircoach from airport 263",
+        "amount"          : "-7.05",
+        "real_pot_id"     : "e4f35918-06c9-4b30-b4f7-0932a6715ea6",
+        "acc_pot_id"      : "a20897bf-75b9-496a-9f23-854bad416536",
+        "mov_group_id"    : null,
+        "total_real_post" : "10.4",
+        "total_acc_post"  : "12.6"
+      }
+    </pre>
+    <hr>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+<!--Real Pots-->
+<hr>
+<div>
+  <h1>Real Pots</h1>
+  <hr>
+
+  <!--Get All-->
+  <div>
+    <h2>Real Pots - Get All (GET) - <span class="api-url get">/api/v1/real_pots</span> </h2>
+    <h3>Request Body: None</h3>
+    <h3>Response Example:</h3>
+    <pre>
+      "real_pots": [
+        { "id"     : "e18cecaa-aea9-4b3b-a7f9-fef5804b15e0",
+          "pos"    : 2,
+          "name"   : "Cta. Nou",
+          "amount" : "0"
+        },
+        { ... }
+      ]
+    </pre>
+    <hr>
+  </div>
+
+  <!--Get One-->
+  <div>
+    <h2>Real Pots - Get One (GET) - <span class="api-url get">/api/v1/real_pots/:realPotId</span> </h2>
+    <h3>Request Body: None</h3>
+    <h3>Response Example:</h3>
+    <pre>
+      "real_pot" : {
+        "id"     : "ba59caa1-5eb2-48bc-b640-1ed431e9f14d",
+        "pos"    : 1,
+        "name"   : "Cta. Vell",
+        "amount" : "43.0"
+      }
+    </pre>
+    <hr>
+  </div>
+
+  <!--Add One-->
+  <div>
+    <h2>Real Pots - Add One (POST) - <span class="api-url post">/api/v1/real_pots</span> </h2>
+    <h3>Request Body:</h3>
+    <table class="request-table">
+      <tr>
+        <td>name</td>
+        <td>The name of the Pot</td>
+      </tr>
+      <tr>
+        <td>amount</td>
+        <td>Current balance of the pot</td>
+      </tr>
+      <tr>
+        <td>pos</td>
+        <td>Numeric position</td>
+      </tr>
+    </table>
+    <h3>Response Example:</h3>
+    <pre>
+      "real_pots": [
+        { "id"     : "e18cecaa-aea9-4b3b-a7f9-fef5804b15e0",
+          "pos"    : 2,
+          "name"   : "Cta. Nou",
+          "amount" : "0"
+        },
+        { ... }
+      ]
+    </pre>
+    <hr>
+  </div>
+
+  <!--Delete One-->
+  <div>
+    <h2>Real Pots - Delete One (DELETE) - <span class="api-url delete">/api/v1/real_pots/:realPotId</span> </h2>
+    <h3>Request Body: None</h3>
+    <h3>Response: None</h3>
+    <hr>
+  </div>
+
+  <!--Edit One-->
+  <div>
+    <h2>Real Pots - Edit One (PATCH) - <span class="api-url edit">/api/v1/real_pots/:realPotId</span> </h2>
+    <h3>Request Body:</h3>
+    <table class="request-table">
+      <tr>
+        <td>id</td>
+        <td>Id of the real pot (reference - should not be different)</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the Pot</td>
+      </tr>
+      <tr>
+        <td>amount</td>
+        <td>Current balance of the pot</td>
+      </tr>
+      <tr>
+        <td>pos</td>
+        <td>Numeric position</td>
+      </tr>
+    </table>
+
+    <h3>Response Example:</h3>
+    <pre>
+      "real_pots": [
+        { "id"     : "e18cecaa-aea9-4b3b-a7f9-fef5804b15e0",
+          "pos"    : 2,
+          "name"   : "Cta. Nou",
+          "amount" : "0"
+        },
+        { ... }
+      ]
+    </pre>
+    <hr>
+  </div>
+
+</div>
+
+
+
+
+
+<!--Acc Pots-->
+<hr>
+<div>
+  <h1>Accountant Pots</h1>
+  <hr>
+
+  <!--Get All-->
+  <div>
+    <h2>Accountant Pots - Get All Recursively (GET) - <span class="api-url get">/api/v1/acc_pots</span> </h2>
+    <p>Retrieves the list of all acc pots recursively, from parent null and linking children[] by parent_id = id</p>
+    <h3>Request Body: None</h3>
+    <h3>Response Example:</h3>
+    <pre>
+     "acc_pots": [
+        {
+           "id"             : "3f739150-848e-4ddd-8bef-064c88e5e544",
+           "pos"            : 3,
+           "name"           : "Prestecs",
+           "amount"         : "0",
+           "parent_id"      : null,
+           "children_count" : "0",
+           "children"       : [ { ...} ]
+        }, ...
+      ]
+    </pre>
+    <hr>
+  </div>
+
+  <!--Get One-->
+  <div>
+    <h2>Accountant Pots - Get One (GET) - <span class="api-url get">/api/v1/acc_pots/:accPotId</span> </h2>
+    <h3>Request Body: None</h3>
+    <h3>Response Example:</h3>
+    <pre>
+      "acc_pot": {
+        "id"             : "0921f052-f154-4eb9-9d0e-a0737e2b1e12",
+        "pos"            : 15,
+        "name"           : "fsdfsd",
+        "amount"         : "3",
+        "parent_id"      : null,
+        "parent_name"    : null,
+        "children_count" : "1"
+      }
+    </pre>
+    <hr>
+  </div>
+
+  <!--Add One-->
+  <div>
+    <h2>Accountant Pots - Add One (POST) - <span class="api-url post">/api/v1/acc_pots</span> </h2>
+    <h3>Request Body:</h3>
+    <table class="request-table">
+      <tr>
+        <td>name</td>
+        <td>The name of the Pot</td>
+      </tr>
+      <tr>
+        <td>amount</td>
+        <td>Current balance of the pot</td>
+      </tr>
+      <tr>
+        <td>pos</td>
+        <td>Numeric position</td>
+      </tr>
+      <tr>
+        <td>parent_id</td>
+        <td>(Optional) If not present = null. If present, it nests the pot under the given parent</td>
+      </tr>
+    </table>
+    <h3>Response Example:</h3>
+    <pre>
+      "acc_pot" : {
+        "id"        : "c74e80e8-1e6b-4910-9cf2-3edaa59c9571",
+        "pos"       : 17,
+        "name"      : "TEST 1",
+        "amount"    : "32",
+        "parent_id" : "353558f0-3411-4a04-a7c6-1dead86486b7"
+      }
+    </pre>
+    <hr>
+  </div>
+
+  <!--Delete One-->
+  <div>
+    <h2>Accountant Pots - Delete One (DELETE) - <span class="api-url delete">/api/v1/acc_pots/:accPotId</span> </h2>
+    <h3>Request Body: None</h3>
+    <h3>Response: None</h3>
+    <hr>
+  </div>
+
+  <!--Edit One-->
+  <div>
+    <h2>Accountant Pots - Edit One (PATCH) - <span class="api-url edit">/api/v1/acc_pots/:accPotId</span> </h2>
+    <p>If updating the amount of a child, it upadtes all its parents amounts to sum the same.
+      <br>Returns the object with all parents nested with the new amount</p>
+    <h3>Request Body:</h3>
+    <table class="request-table">
+      <tr>
+        <td>id</td>
+        <td>Id of the real pot (reference - should not be different)</td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the Pot</td>
+      </tr>
+      <tr>
+        <td>amount</td>
+        <td>Current balance of the pot. It it has a parent, it updates all parents amount recursively</td>
+      </tr>
+      <tr>
+        <td>pos</td>
+        <td>Numeric position</td>
+      </tr>
+    </table>
+
+    <h3>Response Example:</h3>
+    <pre>
+      "acc_pot" : {
+        "id"        : "1321f97e-a84e-4076-b62a-96771c314c8a",
+        "pos"       : 17,
+        "name"      : "TEST 1",
+        "amount"    : "75",
+        "parent_id" : "353558f0-3411-4a04-a7c6-1dead86486b7",
+        "parent"    : {
+          "id"        : "353558f0-3411-4a04-a7c6-1dead86486b7",
+          "amount"    : "275",
+          "parent"    : {}
+        }
+      }
+    </pre>
+    <hr>
+  </div>
+
+</div>
+
+<hr>
+
+
+
+</body>
+</html>

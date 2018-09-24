@@ -66,30 +66,45 @@
                         | filter: searchBox
                         | itemsPerPage: 30">
         <div class="row">
-          <div class="col-xs-6">
+          <div class="col-xs-11">
             <div class="row">
               <div class="col-sm-2 row-text"><span>{{movement.mov_num + ' - ' + (movement.mov_date | date:'yyyy-MM-dd')}}</span></div>
               <div class="col-sm-3 row-text"><span>{{movement.description}}</span></div>
-              <div class="col-sm-2 row-text text-right">
+              <div class="col-sm-1 row-text text-right">
                 <span class="amount" ng-class="movement.amount < 0 ? 'negative' : 'positive'">{{movement.amount | twoDecimal}}</span>
               </div>
               <div class="col-sm-2 row-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><span>{{movement.realPot.pos + '. ' + movement.realPot.name}}</span></div>
               <div class="col-sm-2 row-text" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><span>{{movement.accPot.fullPos + '. ' + movement.accPot.name}}</span></div>
               
-              <div class="col-sm-1">
+              <div class="col-sm-2">
                 <button class="btn btn-icon" ng-click="openEditMov(movement)">
                   <!-- <span class="btn-text-section">Edit</span> -->
                   <span class="btn-icon-section">
                     <span class="glyphicon glyphicon-pencil"></span>
                   </span>
                 </button>
+
+                <!--Push Up -->
+                <button class="btn btn-icon" ng-click="moveUpDown(movement, 'push_up')">
+                  <span class="btn-icon-section">
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                  </span>
+                </button>
+
+                <!--Push Down-->
+                <button class="btn btn-icon" ng-click="moveUpDown(movement, 'push_down')">
+                  <span class="btn-icon-section">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                  </span>
+                </button>
+
               </div>
             </div>
           </div>
             
-          <div class="col-xs-6">
+          <div class="col-xs-1">
             <div class="row">
-              <div class="col-sm-2 row-text text-right">
+              <div class="col-sm-12 row-text text-right">
                 <span class="amount">{{movement.total_real_post | twoDecimal}}</span>
               </div>
             </div>
