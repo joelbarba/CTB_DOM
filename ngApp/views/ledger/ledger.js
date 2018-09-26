@@ -14,6 +14,7 @@ angular.module('myApp.ledger', ['ngRoute'])
   $scope.ledgerList = [];
   $scope.realPots = [];
   $scope.accPots = [];
+  $scope.$ctrl = {};
 
   var ledgerResource = $resource($rootScope.apiURL + '/api/v1/ledger/:movId/:action',
   { movId: '@id', action: '@action' },
@@ -44,7 +45,7 @@ angular.module('myApp.ledger', ['ngRoute'])
       $scope.ledgerList = angular.copy(data.ledger);
       $q.all([realPotsPromise, accPotsPromise]).then(function() {
         $scope.accPots = angular.copy(AccPotsService.accPotsFlatList);
-        $scope.setList();
+        setLedgerList();
       });
     }
   });
@@ -52,7 +53,7 @@ angular.module('myApp.ledger', ['ngRoute'])
   // Arranges the list.
   // Adds pots object to every mov
   // Orders the list by num_mov
-  $scope.setList = function() {
+  var setLedgerList = function() {
     $scope.ledgerList.forEach(function(mov) {
       mov.realPot = $scope.realPots.getById(mov.real_pot_id);
       mov.accPot = AccPotsService.accPotsFlatList.getById(mov.acc_pot_id);
@@ -73,9 +74,13 @@ angular.module('myApp.ledger', ['ngRoute'])
         scope       : $scope,
         controller  : function($scope, $uibModalInstance, growl) {
           "ngInject";
-          $scope.item.mov_date = new Date($scope.item.mov_date);
-          $scope.item.amount = isNaN($scope.item.amount) ? 0 : parseFloat($scope.item.amount).toFixed(2);
-          $scope.originalItem = angular.copy($scope.item);
+
+          $scope.loadItem = function() {
+            $scope.item.mov_date = new Date($scope.item.mov_date);
+            $scope.item.amount = isNaN($scope.item.amount) ? 0 : parseFloat($scope.item.amount).toFixed(2);
+            $scope.originalItem = angular.copy($scope.item);
+          };
+          $scope.loadItem();
 
           $scope.dateOptions = {
             formatYear: 'yyyy',
@@ -124,7 +129,7 @@ angular.module('myApp.ledger', ['ngRoute'])
             if ($scope.item.mov_date.getAPIDate() !== $scope.originalItem.mov_date.getAPIDate()) {
               updateItem.mov_date = $scope.item.mov_date.getAPIDate();
             }
-            if ($scope.item.mov_num      !== $scope.originalItem.mov_num)      { updateItem.amount       = $scope.item.mov_num;      }
+            if ($scope.item.mov_num      !== $scope.originalItem.mov_num)      { updateItem.mov_num      = $scope.item.mov_num;      }
             if ($scope.item.amount       !== $scope.originalItem.amount)       { updateItem.amount       = $scope.item.amount + '';  }
             if ($scope.item.description  !== $scope.originalItem.description)  { updateItem.description  = $scope.item.description;  }
             if ($scope.item.real_pot_id  !== $scope.originalItem.real_pot_id)  { updateItem.real_pot_id  = $scope.item.real_pot_id;  }
@@ -133,13 +138,15 @@ angular.module('myApp.ledger', ['ngRoute'])
 
             if ($scope.hasChanged()) {
               ledgerResource.patch(updateItem, function(data) {
-                var listItem = $scope.ledgerList.getById(data.movement.id);
-                if (listItem) {
-                  angular.merge(listItem, data.movement);
-                  $scope.setList();
-                }
+
+                data.movements.forEach(function(mov) {
+                var listItem = $scope.ledgerList.getById(mov.id);
+                  angular.merge(listItem, mov);
+                });
+                setLedgerList();
+                $scope.item = $scope.ledgerList.getById($scope.item.id);
+                $scope.loadItem();
                 growl.success("Movement saved successfully");
-                $scope.originalItem = angular.copy($scope.item);
                 // $uibModalInstance.close();
               }, function(error) {
                   growl.error(error.data.error);
@@ -161,7 +168,8 @@ angular.module('myApp.ledger', ['ngRoute'])
     });
   };
 
-  // Move one position down
+
+  // Move one position down / up
   $scope.moveUpDown = function(movement, action) {
     var updateItem = {
       action: action,
@@ -180,5 +188,43 @@ angular.module('myApp.ledger', ['ngRoute'])
       });
     });
   };
+
+
+  $rootScope.keyPress = function(event) {
+    // console.log(event.which);
+    if ($scope.$ctrl.selectedMov) {
+      var movPos = $scope.ledgerList.indexOf($scope.$ctrl.selectedMov);
+
+      if (event.which === 38) { // up
+        if (event.ctrlKey && event.shiftKey) {
+          $scope.moveUpDown($scope.$ctrl.selectedMov, 'push_up');
+
+        } else { // Select previous mov
+          if (movPos > 0) { $scope.$ctrl.selectedMov = $scope.ledgerList[movPos-1]; }
+        }
+        event.preventDefault();
+      }
+
+      if (event.which === 40) { // down
+        if (event.ctrlKey && event.shiftKey) {
+          $scope.moveUpDown($scope.$ctrl.selectedMov, 'push_down');
+
+        } else { // Select next mov
+          if (movPos < $scope.ledgerList.length-1) { $scope.$ctrl.selectedMov = $scope.ledgerList[movPos+1]; }
+        }
+        event.preventDefault();
+      }
+
+      if (event.which === 69) { // e
+        $scope.openEditMov($scope.$ctrl.selectedMov);
+      }
+
+    } else { // if no mov selected:
+      if (event.which === 38 || event.which === 40) {
+        $scope.$ctrl.selectedMov = $scope.ledgerList[0];
+        event.preventDefault();
+      }
+    }
+  }
 
 });
