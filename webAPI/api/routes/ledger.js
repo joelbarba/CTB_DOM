@@ -90,7 +90,7 @@ router.get('/', async (req, res, next) => {
   if (shouldAbort(result.err)) { res.status(400).json({error: 'DB error'}); return; };
   
   result = await to(client.query(
-    'select id, mov_num, mov_date, description, amount, real_pot_id, acc_pot_id, '
+      'select id, mov_num, mov_date, description, amount, real_pot_id, acc_pot_id, '
     + '       mov_group_id, total_real_post, total_acc_post'
     + '  from movements order by mov_num', []));
   if (shouldAbort(result.err)) { res.status(400).json({error: 'DB error'}); return; };
@@ -141,19 +141,6 @@ router.patch('/:movId', async (req, res, next) => {
     result = await to(client.query('BEGIN'));
     if (shouldAbort(result.err)) { res.status(400).json({error: 'DB error'}); return; };
 
-    // If moving position check if overlapping. If so, push it at the end of the date
-    // if (newMov.hasOwnProperty('mov_num') || newMov.hasOwnProperty('mov_date')) {
-    //   result = await to(client.query(
-    //       'select 1'
-    //     + '  from movements t1,'
-    //     + '       movements t2 '
-    //     + ' where t2.id      = $1 '
-    //     + '   and t2.id     != t1.id'
-    //     + '   and t2.mov_num = t1.mov_num ',
-    //     [newMov.id, newMov.mov_num]));
-    //   if (shouldAbort(result.err)) { res.status(400).json({error: 'DB error'}); return; };
-    //   console.log('');
-    // }
     if (newMov.hasOwnProperty('mov_num')) { // If changing the move, add half to avoid collision (will resequence later)
       newMov.mov_num += '.5';
       blueLog('newMov.mov_num', newMov.mov_num);
@@ -245,19 +232,6 @@ router.patch('/:movId/push_down', async (req, res, next) => {
 
 });
 
-// Resequence all mov nums wiht the same given date 
-async function reseqDateMovs(movDate) {
-  var updateQuery = 'update movements t1 ' 
-  + '   set mov_num = ((mov_date - date \'2000-01-01\') * 10000) + 1 + '
-  + '                  + (select count(*) from movements t2 where t2.mov_date = t1.mov_date and t2.mov_num < t1.mov_num) '
-  + ' where mov_date = $1 ';
-  updateQuery += ' RETURNING id, mov_num, mov_date, description, amount, real_pot_id, acc_pot_id, mov_group_id ';
-  result = await to(client.query(updateQuery, [movDate]));
-  blueLog('Movs with the same date resequenced', movDate);
-  return result;
-}
-
-
 // Push one movement up (before the previous mov)
 router.patch('/:movId/push_up', async (req, res, next) => {
   const currentMov = {
@@ -313,6 +287,19 @@ router.patch('/:movId/push_up', async (req, res, next) => {
   res.status(201).json({ movements: requestResponse });
 
 });
+
+
+// Resequence all mov nums wiht the same given date 
+async function reseqDateMovs(movDate) {
+  var updateQuery = 'update movements t1 ' 
+  + '   set mov_num = ((mov_date - date \'2000-01-01\') * 10000) + 1 + '
+  + '                  + (select count(*) from movements t2 where t2.mov_date = t1.mov_date and t2.mov_num < t1.mov_num) '
+  + ' where mov_date = $1 ';
+  updateQuery += ' RETURNING id, mov_num, mov_date, description, amount, real_pot_id, acc_pot_id, mov_group_id ';
+  result = await to(client.query(updateQuery, [movDate]));
+  blueLog('Movs with the same date resequenced', movDate);
+  return result;
+}
 
 
 
